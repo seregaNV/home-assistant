@@ -1,0 +1,29 @@
+version: "5.0.2"
+# todo:
+
+# - docker compose up
+# - docker compose up portainer
+
+networks:
+  home_assistant_net:
+    name: home_assistant_net
+    driver: bridge
+
+services:
+  # docker compose up portainer
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: unless-stopped
+    networks:
+      - home_assistant_net
+    ports:
+      - 9002:9000/tcp
+      - 9443:9443/tcp
+    environment:
+      - TZ=Europe/Kyiv
+      - CSP=false
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/portainer:/data

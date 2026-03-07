@@ -1,0 +1,413 @@
+#version: "5.0.2"
+## todo:
+#
+## - Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-1-ustanovka-debian/
+## - ds ha
+## - docker compose up
+## - docker compose up portainer
+## - docker compose up home-assistant
+## - docker compose up code-server
+## - docker compose up mariadb
+## - docker compose up cloudbeaver
+## - docker compose up mosquitto
+#
+#networks:
+#  home_assistant:
+#    name: home_assistant
+#    driver: bridge
+#
+#services:
+#  # - Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-2-docker-i-portainer/
+#  #
+#  # http://127.0.0.1:9002/
+#  # admin
+#  # 0123456789ppp
+#  # **************
+#  portainer:
+#    container_name: portainer
+#    image: portainer/portainer-ce:latest
+##    image: portainer/portainer
+##    command: -H unix:///var/run/docker.sock
+#    restart: unless-stopped
+#    networks:
+#      - home_assistant
+#    ports:
+#      - 9002:9000/tcp
+#      - 9443:9443/tcp
+#    environment:
+#      - TZ=Europe/Kyiv
+#      # не секюрно
+#      - CSP=false
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./data/portainer:/data
+#
+#  # Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-1-ustanovka-debian/
+#  # Домашній помічник – окрема установка основного домашнього помічника
+#  #
+#  # http://127.0.0.1:8123/
+#  # name: B14
+#  # user name: serega_b14
+#  # password: 3535353535hHaA
+#  # **************
+#  #
+#  # Вмикаємо 'Розширений режим' ('B14' -> 'Налаштування користувача' -> 'Розширений режим')
+#  # Home Assistant за замовчуванням приховує розширені функції та параметри.
+#  # Ви можете зробити ці функції доступними, перемкнувши цей перемикач.
+#  # Це налаштування орієнтоване на поточного користувача, і не впливає на інших користувачів,
+#  # які використовують Home Assistant. Дізнатися більше
+#  #
+#  # Для додавання нового дашборда з інфою
+#  # Налаштування -> Панелі -> Додати панель -> Веб-сторінка
+#  # для сторінок з авторизацією можуть бути проблеми
+#  # Portainer
+#  #  title: Portainer
+#  #  url: http://127.0.0.1:9002/#!/3/docker/stacks/home-assistant # уточнити лінку в самому portainer
+#  #  icon: mdi:docker
+#  #  URL-адреса: dashboard-portainer
+#  #  require_admin: true
+#  # Configurator
+#  #  title: Configurator
+#  #  url: http://127.0.0.1:8443
+#  #  icon: mdi:wrench
+#  #  URL-адреса: dashboard-configurator
+#  #  require_admin: true
+#  # DBeaver
+#  #  title: DBeaver
+#  #  url: http://127.0.0.1:8978
+#  #  icon: mdi:database-search
+#  #  URL-адреса: dashboard-dbeaver
+#  #  require_admin: true
+#  #
+#  # Встановлюємо та налаштовуємо HACS
+#  # 1. читаємо усі запущені контейнери
+#  # docker ps -a
+#  # 2. запускаємо bash в середині контейнера home-assistant
+#  # docker exec -it home-assistant bash
+#  # 3. виконуємо двічі щоб встановився додаток
+#  # wget -O – https://get.hacs.xyz | bash –
+#  # wget -O – https://get.hacs.xyz | bash –
+#  # 4. Перезапускаємо HA
+#  # 5. Налаштування -> Пристрої та сервіси (Інтеграції) -> Додати інтеграцію -> HACS
+#  # 6. Нам пропонують авторизуватись в Git репозиторію - логінемось за інструкцією
+#  # https://github.com/login/device
+#  # 15B6-AA2A
+#  #
+#  # Встановлюємо та налаштовуємо Local Tuya
+#  # https://github.com/rospogrigio/localtuya
+#  # 1. заходимо в HACS, пукаємо Local Tuya, тиснемо Download
+#  #   Для завершення завантаження/оновлення Local Tuya потрібен перезапуск Home Assistant.
+#  # 2. перезапускаємо Home Assistant
+#  # 3. додаємо нову інтеграцію 'Налаштування' -> 'Пристрої та сервіси' -> 'Додати інтеграцію'
+#  #   - шукаємо 'Local Tuya'
+#  #   - з’явиться сторінка налаштування Cloud API із запитом
+#  #     на введення облікових даних облікового запису Tuya IoT Platform
+#  #     для отримання цих даних потрібно (деталі в pass):
+#  #       - залогінитись/зареєструватись в Tuya IoT Platform
+#  #       - за інструкцією підв'язуємо APPку
+#  #       - додаємо Cloud API
+#  #     https://platform.tuya.com/
+#  #     https://platform.tuya.com/cloud/basic?id=p17727405541833a4gvs&toptab=project
+#  #     Client ID: t85trp5a8cxvedwate95
+#  #     Secret: 8bf7fe82d8404729b04647a6f21fc65c
+#  #     User ID: eu1770065598764UTYSA
+#  #     username: localtuya
+#  #
+#  #
+#  #     bfda025e72943fdb77gcuv
+#  #     493e76d9193611f18255b6b5e3717ca9
+#  #     da530de3193611f1a0e39aa9e01ed45b
+#  #     }E4j${<'YMuflk<n
+#  #
+#  #
+#  #
+#  #
+#  # local_key можна отримати в Cloud API
+#  # 1 - https://eu.platform.tuya.com/cloud/explorer
+#  # 2 - в пошук вводимо 'Local Key' -> Device Management -> Query Device Details
+#  # 3 - вводимо device_id: bfda025e72943fdb77gcuv
+#  # 4 - отримуємо JSON де є стрічка '"local_key": "}E4j${<'YMuflk<n",'
+#  #
+#  # або за допомогою tinytuya
+#  #
+#  # встановлюємо tinytuya
+#  # sudo apt install python3-pip
+#  # sudo apt-get install python3 python3-pip python3-full
+#  # sudo apt-get install python-crypto python-pip
+#  # pip install tinytuya
+#  #
+#  # стандартним методом встановити додаток не вдалось, тому робимо так
+#  # sudo apt update
+#  # sudo apt install python3-venv
+#  #
+#  # python3 -m venv tinytuya-env
+#  # source tinytuya-env/bin/activate
+#  #
+#  # pip install tinytuya
+#  # python3 -m tinytuya wizard
+#  # підключаємось до девайса
+#  # {
+#  #    "apiKey": "t85trp5a8cxvedwate95",
+#  #    "apiSecret": "8bf7fe82d8404729b04647a6f21fc65c",
+#  #    "apiRegion": "eu",
+#  #    "apiDeviceID": "bfda025e72943fdb77gcuv"
+#  # }
+#  #
+#  # в корнівій папці отримуємо два фійліка:
+#  # - tinytuya.json (конфіги налаштувань)
+#  # - tuya-raw.json (детальна інфа про девайси)
+#  #
+#  # python3 -m tinytuya scan
+#  # скануються девайси
+#  #
+#  # виконав tinytuya scan в результаті отрмав таку стрічку по девайсу:
+#  # Вхідне реле Product ID = u0cxoxtfelys3ufx [Valid Broadcast]: Address = 192.168.0.106 Device ID = bfda025e72943fdb77gcuv (len:22) Local Key = }E4j${<'YMuflk<n Version = 3.5 Type = default, MAC = 3c:0b:59:b1:a5:de Status: {'1': 32802, '9': 0, '11': False, '13': 0, '15': 13, '16': True, '19': '1234', '104': 595, '105': 500, '116': 2176, '117': 2080, '118': 269}
+#  # із цікавого - Version = 3.5,
+#  # я так розумію це 'Protocol Version' з налаштувань підключення в LocalTuya
+#  # але в списку допустимих протоколів 3.1, 3.2, 3.3, 3.4,
+#  # тобто Protocol Version - відсутня і я не можу його обрати
+#  #
+#  # Я створив форк цього коду та виправив проблеми з цього репозиторію, а також додав підтримку версії 3.5
+#  # https://github.com/ClermontDigital/ProperGoodTuya
+#  #
+#  #
+#  # 2️⃣ Використати dev-версію LocalTuya
+#  #Останні dev-гілки LocalTuya вже почали додавати підтримку 3.5.
+#  #Якщо ставив через HACS, можна:
+#  #HACS → LocalTuya → Redownload → Show beta versions
+#  #і встановити latest beta.
+#  #
+#  #
+#  #3️⃣ Використати TinyTuya напряму (альтернатива)
+#  #Оскільки TinyTuya вже працює з 3.5, можна:
+#  #зробити Python-скрипт
+#  #читати статус
+#  #передавати в Home Assistant через
+#  #MQTT
+#  #або REST
+#  #Це стабільно, але трохи більше коду.
+#  #
+#  #
+#  # получилось додати але через звичайеу інтеграцію Tuya, серез LocalTuya так і не відображаються пристрої
+#  # спробувати пізніше
+#  # якась проблема з Protocol Version: 3.5, спостерігати за релізами офіційного репо LocalTuya
+#  # https://github.com/rospogrigio/localtuya?tab=readme-ov-file
+#  # ще варіант подосліджувати теорію про некоректний 'Local Key'
+#  # якийсь формат дивний, і це також може бути причиною
+#  #
+#  #
+#  #
+#  # Sonoff
+#  #
+#  # Встановлюємо та налаштовуємо Sonoff (eWeLink) через HACS
+#  # https://github.com/rospogrigio/localtuya ????????????????77
+#  # 1. заходимо в HACS, пукаємо Sonoff (eWeLink), тиснемо Download
+#  #   Для завершення завантаження/оновлення Local Tuya потрібен перезапуск Home Assistant.
+#  # 2. перезапускаємо Home Assistant
+#  # 3. додаємо нову інтеграцію 'Налаштування' -> 'Пристрої та сервіси' -> 'Додати інтеграцію'
+#  #   - шукаємо Sonoff (eWeLink)
+#  #   - з’явиться екранчик налаштування Sonoff
+#  #     на введення облікових даних облікового запису eWeLink
+#  #     для отримання цих даних потрібно (деталі в pass):
+#  #       Email або телефон (будь-який для DIY режиму): serega.n.v333@gmail.com
+#  #       Пароль (залишіть порожнім для режиму DIY): 1357908642eE
+#  #       Country code (leave blank for auto select): Ukraine | +380
+#
+#
+#
+#
+#  #       - залогінитись/зареєструватись в Tuya IoT Platform
+#  #       - за інструкцією підв'язуємо APPку
+#  #       - додаємо Cloud API
+#  #     https://platform.tuya.com/
+#  #     https://platform.tuya.com/cloud/basic?id=p17727405541833a4gvs&toptab=project
+#  #     Client ID: t85trp5a8cxvedwate95
+#  #     Secret: 8bf7fe82d8404729b04647a6f21fc65c
+#  #     User ID: eu1770065598764UTYSA
+#  #     username: localtuya
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  #
+#  home-assistant:
+#    container_name: home-assistant
+#    image: homeassistant/home-assistant:latest
+#    restart: unless-stopped
+#    networks:
+#      - home_assistant
+#    privileged: true
+#    ports:
+#      - 8123:8123
+##      - 1400:1400
+#    environment:
+#      - TZ=Europe/Kyiv
+#      - PUID=1000
+#      - PGID=1000
+#    depends_on:
+#      - mariadb
+#      - mosquitto
+##    devices:
+##      - /path/to/device:/path/to/device #optional
+#    volumes:
+#      - ./data/home-assistant/config:/config
+#      - ./data/home-assistant/media:/media
+#      - /etc/localtime:/etc/localtime:ro
+#      # Прокидування /run/dbus у Docker-контейнер потрібне,
+#      # щоб контейнер міг підключатися до системної D-Bus шини хоста і взаємодіяти з системними сервісами
+#      # systemd, NetworkManager, BlueZ (Bluetooth), logind, Avahi, UPower, ...
+#      - /run/dbus:/run/dbus:ro
+#
+#  # Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-4-file-editor/
+#  #
+#  # http://127.0.0.1:8443/
+#  # віртуальна IDE, для можливості правити код на віртуальній машині
+#  code-server:
+#    container_name: code-server
+#    image: linuxserver/code-server:latest
+#    restart: unless-stopped
+#    networks:
+#      - home_assistant
+#    ports:
+#      - 8443:8443
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/Kyiv
+#    volumes:
+#      - ./data/code-server/config:/config
+#      - ./data:/var/www
+#
+#  # Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-5-mariadb/
+#  #
+#  # локальна БД
+#  # докидуємо прав на папку
+#  # sudo mc
+#  # chmod +x -R 777 /home/sereganv/home-assistant/home-assistant/data/mariadb/data
+#  #
+#  # заходимо в базу:
+#  # docker exec -it mariadb mariadb -u ha_user -p
+#  #
+#  # !!! невдається закомітити дані з ./data/mariadb/data, великий об'єм, тре подумати як це зробити
+#  #
+#  # можуть бути проблеми з конфігами доступів до бази,
+#  # для рішення потрібно стопнути імедж, видалити з докер десктоп та почистити локальні файли
+#  mariadb:
+#    container_name: mariadb
+#    image: mariadb:latest
+#    restart: unless-stopped
+#    networks:
+#      - home_assistant
+#    ports:
+#      - 3306:3306
+#    env_file:
+#      - env/MARIA.env
+#    environment:
+#      - TZ=Europe/Kyiv
+#    volumes:
+#      - ./data/mariadb/data:/var/lib/mysql
+#
+#  # Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-5-mariadb/
+#  # В прикладі налаштовують adminer
+#  # http://127.0.0.1:8978/
+#  #
+#  # При першому запуску налаштовуємо connection
+#  # - Server Name *: HA
+#  # - Login *: ha_user
+#  # - Password *: VFYq7CFbkeam3vw
+#  # - Repeat Password *: VFYq7CFbkeam3vw
+#  # - Allowed Server URLs: mariadb
+#  #
+#  # New Connection:
+#  # - Driver: MariaDB
+#  # - Host *: MariaDB
+#  # - Port: 3306
+#  # - User name: ha_user
+#  # - User password: OtPgHWk8zKDoY56F
+#  #
+#  # http://127.0.0.1:8978/
+#  # віртуальна web-версія DBeaver для роботи з локальною БД
+#  cloudbeaver:
+#    container_name: cloudbeaver
+#    image: dbeaver/cloudbeaver:latest
+#    restart: unless-stopped
+#    networks:
+#      - home_assistant
+#    ports:
+#      - 8978:8978
+#    environment:
+#      - TZ=Europe/Kyiv
+#    depends_on:
+#      - mariadb
+#    volumes:
+#      - ./data/cloudbeaver/data:/opt/cloudbeaver/workspace
+#
+#  # Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-6-mosquitto-mqtt/
+#  #
+#  # Mosquitto — брокер повідомлень MQTT
+#  # щоб дозволити пристроям використовувати модель публікації/підписки на обмін повідомленнями
+#  #
+#  # Перед запуском потрібно створити пусті файліки, бо буде сипати помилки
+#  # Error: Unable to open config file '/mosquitto/config/mosquitto.conf'
+#  # touch nano ./data/mosquitto/config/mosquitto.conf
+#  # touch nano ./data/mosquitto/log/mosquitto.log
+#  #
+#  # Після запуску командою додаємо юзера з паролем
+#  # user: mqtt_user
+#  # pass: MumsaXHEBA7TAsLZ
+#  # docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/mqttuser mqtt_user
+#  #
+#  # Додаємо нову інтеграцію в Home Assistant
+#  # - 'Налаштування' -> 'Пристрої та сервіси' -> 'Додати інтеграцію'
+#  # - шукаємо 'MQTT'
+#  #   - host: mosquitto
+#  #   - port: 1883
+#  #   - user: mqtt_user
+#  #   - pass: MumsaXHEBA7TAsLZ
+#  mosquitto:
+#    container_name: mosquitto
+#    image: eclipse-mosquitto:latest
+#    restart: unless-stopped
+#    networks:
+#      - home_assistant
+#    ports:
+#      - 1883:1883
+##      - 1884:1884/tcp
+#    environment:
+#      - TZ=Europe/Kyiv
+#    volumes:
+#      - ./data/mosquitto/config:/mosquitto/config
+#      - ./data/mosquitto/data:/mosquitto/data
+#      - ./data/mosquitto/log:/mosquitto/log
+#    stdin_open: true
+#    tty: true
+#
+#  # Інструкція: https://io-home.ru/home-assistant/docker-container/docker-chast-7-zigbee2mqtt/
+#  # Zigbee - це бездротовий протокол, подібний до WiFi, але розроблений спеціально для пристроїв IoT.
+#  # Пристрої з'єднуються в пористу мережу, де пристрої з живленням від мережі
+#  # (наприклад, лампочки та розумні розетки) виступають як роутери для збільшення радіусу дії мережі.
+#  # Координатор Zigbee знаходиться в центрі мережі Zigbee і забезпечує взаємодію з пристроями,
+#  # які не належать до Zigbee.
+#  #
+#  # https://io-home.ru/devices/sonoff-zigbee-3-0-usb-dongle-e/
+#  #
+#  # http://127.0.0.1:8978/
+#  #
+#  #
+#  #
