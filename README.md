@@ -11,6 +11,7 @@
   - [HACS](#305-hacs)
   - [Tuya](#306-tuya)
   - [Sonoff](#307-sonoff)
+  - [Code Server](#308-code-server)
 - [Setup steps](#4-setup-steps)
 - [Add menu item](#5-add-menu-item)
 
@@ -213,6 +214,17 @@
 ##### todo:
 - `Sonoff S60TPF` налаштувати роботу без доступу до хмари, без інтернету.
 
+
+#### 3.08. Code Server
+Віртуальна IDE, для можливості правити код на віртуальній машині
+- command: `docker compose up code-server`
+- configs:
+    - host: `http://127.0.0.1:8443/`
+
+##### Етапи налаштувань:
+- Ініціалізація
+- Додаємо пункт [меню](#503-configurator)
+
 ---
 
 ### 4. Setup steps
@@ -262,7 +274,8 @@
 5. Налаштування [HACS](#305-hacs)
 6. Налаштування [Tuya](#306-tuya)
 7. Налаштування [Sonoff](#307-sonoff)
-8. 
+8. Налаштування [Code Server](#308-code-server)
+9. 
 
 ---
 
@@ -271,6 +284,7 @@
 `Налаштування -> Інформаційні панелі -> Додати інформаційну панель
 -> Веб-сторінка`\
 Для сторінок з авторизацією можуть бути проблеми.
+
 #### 5.01. Portainer
   - title: Portainer
   - url: http://127.0.0.1:9002/#!/home
@@ -278,6 +292,7 @@
   - URL-адреса: dashboard-portainer (формується автоматично, не змінюємо)
   - Admin-only: true
   - Add to sidebar: true
+
 #### 5.02. DBeaver
   - title: DBeaver
   - url: http://127.0.0.1:8978
@@ -286,3 +301,12 @@
   - Admin-only: true
   - Add to sidebar: true
 
+#### 5.03. Configurator
+  - title: Configurator
+  - url: http://127.0.0.1:8443/?folder=/var/www
+  - icon: mdi:wrench
+  - URL-адреса: dashboard-configurator (формується автоматично, не змінюємо)
+  - Admin-only: true
+  - Add to sidebar: true
+
+---
