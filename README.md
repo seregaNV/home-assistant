@@ -38,7 +38,7 @@
   щоб був недоступний іншим юзерам
 - Щоб можна було пушати - створюємо Access tocken
   https://github.com/settings/tokens/new
-  З вашого облікового запису GitHub перейдіть до `Settings` → `Developer Settings` → `Personal Access Token` → `Tokens (classic)` → `Generate New Token (Give your password)` → Заповніть форму → натисніть Згенерувати токен → буде виглядати приблизно так: `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`
+  З вашого облікового запису GitHub перейдіть до `Settings` → `Developer Settings` → `Personal Access Token` → `Tokens (classic)` → `Generate New Token (Give your password)` → Заповніть форму → натисніть Згенерувати токен → буде виглядати приблизно так: `ghp_xxxxxxxxxxx`
     - new_token
     - 90 days
     - repo
