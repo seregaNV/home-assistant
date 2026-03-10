@@ -32,6 +32,7 @@
 
 ---
 
+
 ### 2. General nuances
 #### Загальні нюанси:
 - Налаштування приватності проекта https://github.com/seregaNV/home-assistant/settings
