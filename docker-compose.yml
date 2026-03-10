@@ -1,8 +1,12 @@
 version: "5.0.2"
 # todo:
+# 1. `Sonoff S60TPF` налаштувати роботу без доступу до хмари, без інтернету.
 
 # - docker compose up
 # - docker compose up portainer
+# - docker compose up home-assistant
+# - docker compose up mariadb
+# - docker compose up cloudbeaver
 
 networks:
   home_assistant_net:
@@ -11,6 +15,7 @@ networks:
 
 services:
   # docker compose up portainer
+  # http://127.0.0.1:9002/
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:latest
@@ -27,3 +32,66 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data/portainer:/data
+
+  # docker compose up home-assistant
+  # http://127.0.0.1:8123/
+  home-assistant:
+    container_name: home-assistant
+    image: homeassistant/home-assistant:latest
+    restart: unless-stopped
+    networks:
+      - home_assistant_net
+    privileged: true
+    ports:
+      - 8123:8123
+#      - 1400:1400
+    environment:
+      - TZ=Europe/Kyiv
+      - PUID=1000
+      - PGID=1000
+    depends_on:
+      - mariadb
+#      - mosquitto
+#    devices:
+#      - /path/to/device:/path/to/device #optional
+    volumes:
+      - ./data/home-assistant/config:/config
+      - ./data/home-assistant/media:/media
+      - /etc/localtime:/etc/localtime:ro
+      # Прокидування /run/dbus у Docker-контейнер потрібне,
+      # щоб контейнер міг підключатися до системної D-Bus шини хоста і взаємодіяти з системними сервісами
+      # systemd, NetworkManager, BlueZ (Bluetooth), logind, Avahi, UPower, ...
+      - /run/dbus:/run/dbus:ro
+
+  # docker compose up mariadb
+  mariadb:
+    container_name: mariadb
+    image: mariadb:latest
+    restart: unless-stopped
+    networks:
+      - home_assistant_net
+    ports:
+      - 3306:3306
+    env_file:
+      - env/MARIA.env
+    environment:
+      - TZ=Europe/Kyiv
+    volumes:
+      - ./data/mariadb/data:/var/lib/mysql
+
+  # docker compose up cloudbeaver
+  # http://127.0.0.1:8978/
+  cloudbeaver:
+    container_name: cloudbeaver
+    image: dbeaver/cloudbeaver:latest
+    restart: unless-stopped
+    networks:
+      - home_assistant_net
+    ports:
+      - 8978:8978
+    environment:
+      - TZ=Europe/Kyiv
+    depends_on:
+      - mariadb
+    volumes:
+      - ./data/cloudbeaver/data:/opt/cloudbeaver/workspace

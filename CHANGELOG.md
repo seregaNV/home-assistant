@@ -1,4 +1,36 @@
 ## 07.03.2026
 
 ### Налаштування `portainer`
-* page в посиланні SAB-8830 ([fc59a93](https://gitlab.decluster.ria.com/bu-auto-rest/search-bff/commit/fc59a93648330cad747480af8f8470f875b2b541))
+* `docker compose up portainer`
+* configs
+
+### Налаштування `home-assistant`
+* `docker compose up home-assistant`
+* configs
+* Ініціалізація
+* Вмикаємо 'Розширений режим'
+* Додаємо пункт меню
+
+### Налаштування `mariadb`
+* `docker compose up mariadb`
+* configs
+* Підключаємо MariaDB до Home Assistant
+
+---
+
+## 08.03.2026
+
+### Налаштування `cloudbeaver`
+* `docker compose up cloudbeaver`
+* configs
+* Ініціалізація
+* При першому запуску налаштовуємо connection
+* New Connection
+* Додаємо пункт меню
+
+---
+
+## 09.03.2026
+### Налаштування `HACS`
+### Налаштування `Tuya`
+### Налаштування `Sonoff`
