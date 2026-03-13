@@ -1,0 +1,9 @@
+{
+  "query": {
+    "folder": "/var/www"
+  },
+  "update": {
+    "checked": 1773152654113,
+    "version": "4.110.0"
+  }
+}
