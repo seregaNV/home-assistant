@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_dashboards",
+  "data": {
+    "items": [
+      {
+        "id": "map",
+        "icon": "mdi:map",
+        "title": "Мапа",
+        "url_path": "map",
+        "require_admin": false,
+        "mode": "storage",
+        "show_in_sidebar": true
+      },
+      {
+        "id": "dashboard_portainer",
+        "show_in_sidebar": true,
+        "icon": "mdi:docker",
+        "title": "Portainer",
+        "require_admin": true,
+        "mode": "storage",
+        "url_path": "dashboard-portainer"
+      },
+      {
+        "id": "dashboard_dbeaver",
+        "show_in_sidebar": true,
+        "icon": "mdi:database-search",
+        "title": "DBeaver",
+        "require_admin": true,
+        "mode": "storage",
+        "url_path": "dashboard-dbeaver"
+      },
+      {
+        "id": "dashboard_configurator",
+        "show_in_sidebar": true,
+        "icon": "mdi:wrench",
+        "title": "Configurator",
+        "require_admin": true,
+        "mode": "storage",
+        "url_path": "dashboard-configurator"
+      }
+    ]
+  }
+}

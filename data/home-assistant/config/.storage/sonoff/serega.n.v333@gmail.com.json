@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "sonoff/serega.n.v333@gmail.com.json",
+  "data": [
+    {
+      "name": "S60TPF_001",
+      "deviceid": "10027ba6c5",
+      "apikey": "11cb85ee-79b7-4d3d-b83e-863e6aa6aab2",
+      "extra": {
+        "model": "SN-ESP32C3-S60-01",
+        "mac": "d0:27:04:6e:0d:5c",
+        "apmac": "d0:27:04:6e:0d:5d",
+        "uiid": 190,
+        "ui": "POWR3-显示屏版本",
+        "modelInfo": "63ae94bac7ec07c179d8509b",
+        "brandId": "5c4c1aee3a7d24c7100be054",
+        "itCredential": "Yo5LbGaDLxmDWVNn",
+        "description": "",
+        "manufacturer": "深圳松诺技术有限公司",
+        "staMac": "94:A9:90:6B:B6:58"
+      },
+      "brandName": "SONOFF",
+      "brandLogo": "https://eu-ota.coolkit.cc/logo/q62PevoglDNmwUJ9oPE7kRrpt1nL1CoA.png",
+      "showBrand": true,
+      "productModel": "S60TPF",
+      "tags": {
+        "m_aab2_sere": "on",
+        "deviceIconType": 0
+      },
+      "devConfig": {},
+      "settings": {
+        "opsNotify": 0,
+        "opsHistory": 1,
+        "alarmNotify": 1,
+        "wxAlarmNotify": 0,
+        "wxOpsNotify": 0,
+        "wxDoorbellNotify": 0,
+        "appDoorbellNotify": 1,
+        "offlineNotify": 0
+      },
+      "devGroups": [],
+      "family": {
+        "familyid": "698707d9cabca0f9b70e1da0",
+        "index": 0,
+        "members": [],
+        "guests": []
+      },
+      "shareTo": [],
+      "devicekey": "f5932bb8-b157-4ed7-b2e9-e087fb589f31",
+      "online": true,
+      "params": {
+        "bindInfos": {},
+        "version": 8,
+        "bssid": "90:9a:4a:db:1d:2b",
+        "fwVersion": "1.2.0",
+        "ssid": "B14",
+        "demNextFetchTime": 1773439200000,
+        "TZ": "Europe/Kiev",
+        "configure": [
+          {
+            "startup": "off",
+            "outlet": 0
+          }
+        ],
+        "pulses": [
+          {
+            "pulse": "off",
+            "switch": "off",
+            "outlet": 0,
+            "width": 500
+          }
+        ],
+        "rssi": -53,
+        "sledOnline": "off",
+        "staMac": "94:A9:90:6B:B6:58",
+        "switches": [
+          {
+            "switch": "on",
+            "outlet": 0
+          }
+        ],
+        "threshold": {
+          "actPow": {
+            "min": 10,
+            "max": 400000
+          },
+          "voltage": {
+            "min": 16500,
+            "max": 27700
+          },
+          "current": {
+            "min": 10,
+            "max": 1700
+          }
+        },
+        "overload_00": {
+          "minAP": {
+            "en": 0,
+            "val": 10
+          },
+          "maxAP": {
+            "en": 1,
+            "val": 400000
+          },
+          "minV": {
+            "en": 0,
+            "val": 16500
+          },
+          "maxV": {
+            "en": 0,
+            "val": 27700
+          },
+          "maxC": {
+            "en": 1,
+            "val": 1700
+          },
+          "minC": {
+            "en": 0,
+            "val": 10
+          }
+        },
+        "current": 0,
+        "power": 0,
+        "voltage": 21830,
+        "uiActive": 60,
+        "timeZone": 2,
+        "dayKwh": 0,
+        "monthKwh": 141,
+        "operSide": 1,
+        "getHoursKwh": {
+          "start": 0,
+          "end": 719
+        }
+      },
+      "denyFeatures": [
+        "hideResetPowerUsage",
+        "protectionSettingsNotification",
+        "formateKwhDataByFourChars",
+        "resetAllPowerUsage",
+        "measurementMode",
+        "exceptionTip"
+      ],
+      "isSupportGroup": true,
+      "isSupportedOnMP": false,
+      "isSupportChannelSplit": false,
+      "deviceFeature": {}
+    }
+  ]
+}
