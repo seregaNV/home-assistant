@@ -1,32 +1,16 @@
 ## 07.03.2026
 
 ### Налаштування `portainer`
-* `docker compose up portainer`
-* configs
 
 ### Налаштування `home-assistant`
-* `docker compose up home-assistant`
-* configs
-* Ініціалізація
-* Вмикаємо 'Розширений режим'
-* Додаємо пункт меню
 
 ### Налаштування `mariadb`
-* `docker compose up mariadb`
-* configs
-* Підключаємо MariaDB до Home Assistant
 
 ---
 
 ## 08.03.2026
 
 ### Налаштування `cloudbeaver`
-* `docker compose up cloudbeaver`
-* configs
-* Ініціалізація
-* При першому запуску налаштовуємо connection
-* New Connection
-* Додаємо пункт меню
 
 ---
 
@@ -42,3 +26,40 @@
 
 ### Налаштування `Code Server`
 ### Налаштування `Solarman`
+
+## 28.03.2026
+
+### Все зніс
+### Налаштування `Portainer`
+### Налаштування `Home Assistant`
+### Налаштування `MariaDB`
+### Налаштування `HACS`
+### Налаштування `HASS Local Tuya`
+
+### Все зніс
+### Налаштування `Portainer`
+### Налаштування `Home Assistant`
+### Налаштування `MariaDB`
+### Налаштування `HACS`
+### Налаштування `Local Tuya`
+### Налаштування `HASS Local Tuya`
+
+### Все зніс
+### Налаштування `Portainer`
+### Налаштування `Home Assistant`
+### Налаштування `MariaDB`
+### Налаштування `HACS`
+### Налаштування `Tuya Local`
+### Налаштування `HASS Local Tuya`
+### Так запрацювало, ще експерементую
+
+### Все зніс
+### Налаштування `Portainer`
+### Налаштування `Home Assistant`
+### Налаштування `MariaDB`
+### Налаштування `HACS`
+### Налаштування `Tuya Local`
+### Налаштування `HASS Local Tuya`
+### Все ще робе, навіть в інтеграції `Tuya Local`, продовжую ламати
+
+## 29.03.2026

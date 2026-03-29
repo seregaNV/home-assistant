@@ -13,8 +13,9 @@
 - [Офіційні інтеграції](#4-integrations)
 - [HACS](#5-hacs)
   - [Налаштування HACS](#5001-setup-hacs)
-  - [Tuya](#5002-tuya)
+  - [Tuya Local](#5002-tuya-local)
   - [Local Tuya](#5003-local-tuya)
+  - [HASS Local Tuya](#5006-hass-local-tuya)
   - [Sonoff](#5004-sonoff)
   - [Solarman](#5005-solarman)
 - [Setup steps](#6-setup-steps)
@@ -69,6 +70,21 @@
 - `HACS` офіційна інтеграцію `Tuya Local` - складно підключити та налаштувати (Tuya IoT Platform), не підтягує нормально девайси. **Спробувати ще раз**.
 - `HACS` кастомна інтеграцію `Local Tuya` - не оновлюється
 - `polling через TinyTuya + MQTT` - непонятні значення
+- `HACS` кастомна інтеграцію `Tuya Local` - не оновлюється
+
+`28.03.2026` після ряду експериментів запрацювало оновлення даних в інтеграції `Tuya Local` навіть при закритому мобільному додатку Tuya.\
+Причини може бути дві:
+1. перед тим як налаштовував інтеграцію відвалився сам девайс в мобільному додатку, на девайсі зажав кнопку WiFi після чого шось поблимало і дані в додатку з'явились, також змінився `local_key` в `Tuya IoT Platform`
+2. налаштував поверх інтеграції `Tuya Local` ще інтеграцію `HASS Local Tuya` та вручну поналаштовував сутності
+
+###### 5. Сутність оновлення даних сенсорів для в TOMZN TOMPD-63WIFI
+В пристрої є DP ID: 106 (code: refresh).\
+Очікую що ця сутність відповідає за оновлення даних усіх сенсорів.\
+Налаштував виклик цієї сутності при натисканні на кнопку.\
+Натискаю на кнопку кожну секунду протягом 10 секунд - очікую побачити на графіку сенсора, наприклад DP ID: 118 (code: output_power) зміну даних.\
+Але зміни на графіку відсутні.\
+Те ж саме при автоматизації по часу, кожну секунду.\
+!!! Ця кнопка нічого не оновлює, виклик DP 106 → НЕ змушує пристрій відправити нові дані
 
 ---
 
@@ -129,12 +145,12 @@ Portainer — зручний інтерфейс керування контей�
     - command: `docker compose up mariadb`
 2. Підключаємо MariaDB до Home Assistant
    - ініціалізуємо конфіг для підключення до `mariadb`
-     додаємо конфіг в `data/home-assistant/config/secrets.yaml`
+     додаємо конфіг в `src/home-assistant/config/secrets.yaml`
      ```YAML
        mariadb: "mysql://ha_user:OtPgHWk8zKDoY56F@mariadb/ha_db?charset=utf8mb4"
      ```
    - налаштовуємо підключення до `mariadb`
-     додаємо конфіг в `data/home-assistant/config/configuration.yaml`
+     додаємо конфіг в `src/home-assistant/config/configuration.yaml`
      ```YAML
        recorder:
          db_url: !secret mariadb
@@ -142,7 +158,7 @@ Portainer — зручний інтерфейс керування контей�
      ```
 
 ##### нюанси налаштувань:
-- в самій IDE не відображаються дані з `/home-assistant/data/mariadb/data/ha_db`
+- в самій IDE не відображаються дані з `/home-assistant/src/mariadb/data/ha_db`
   через права доступа, це не критично, якщо потрібно - дивимось в самому контейнері `mariadb` або в `mc`
 
 ---
@@ -186,11 +202,11 @@ Portainer — зручний інтерфейс керування контей�
 Mosquitto — брокер повідомлень MQTT. Щоб дозволити пристроям використовувати модель публікації/підписки на обмін повідомленнями.\
 
 1. Перед запуском потрібно створити пусті файліки, бо буде сипати помилки `Error: Unable to open config file '/mosquitto/config/mosquitto.conf'`:
-   - `mkdir ./data/mosquitto`
-   - `mkdir ./data/mosquitto/config`
-   - `mkdir ./data/mosquitto/log`
-   - `touch nano ./data/mosquitto/config/mosquitto.conf`
-   - `touch nano ./data/mosquitto/log/mosquitto.log`
+   - `mkdir ./src/mosquitto`
+   - `mkdir ./src/mosquitto/config`
+   - `mkdir ./src/mosquitto/log`
+   - `touch nano ./src/mosquitto/config/mosquitto.conf`
+   - `touch nano ./src/mosquitto/log/mosquitto.log`
 2. Запускаємо
    - command: `docker compose up mosquitto`
 3. Після запуску командою додаємо юзера з паролем
@@ -198,7 +214,7 @@ Mosquitto — брокер повідомлень MQTT. Щоб дозволит�
       - user: mqtt_user
       - pass: MumsaXHEBA7TAsLZ
 4. Додаємо конфіги для `mosquitto`
-    - створюємо файл конфігурації `./data/mosquitto/config/mosquitto.conf`
+    - створюємо файл конфігурації `./src/mosquitto/config/mosquitto.conf`
     - додаємо наступний код:
       ```nginx configuration
         persistence true
@@ -254,12 +270,12 @@ HACS (Home Assistant Community Store) – це магазин співтовар
     - тиснемо 'Надіслати'
 6. Нам пропонують авторизуватись в Git репозиторію - логінемось за інструкцією
     - https://github.com/login/device
-    - 59A1-12A4
+    - XXXX-XXXX
 7. Інтеграція сама створює пункт меню, в ньому можемо користуватись `HACS`
 
 ---
 
-#### 5.002. Tuya
+#### 5.002. Tuya Local
 Встановлюємо та налаштовуємо `Tuya` для підключення пристроїв через `ZigBee` шлюз.\
 
 В `HA` є штатна інтеграція `Tuya`, через яку будуть підтягуватись усі пристрої.\
@@ -306,9 +322,14 @@ HACS (Home Assistant Community Store) – це магазин співтовар
     - `Версія протоколу (якщо не знаєте, спробуйте 'auto'): auto` - підтягнувся сам, при переході на наступний крок довго думало, пробувало і визначило як 3.5 (до того в логах було 4 помилки типу `ERROR (MainThread) [custom_components.tuya_local.device] Failed to refresh device state for Test.`)
     - інше не змінюємо
 9. 'Оберіть тип пристрою' визначається автоматично, якщо щось специфічне - пробуємо обрати вручну
-10. 'Налаштування пристрою' - назва пристрою в `HA`
+10. 'Налаштування пристрою' (`TOMZN TOMPD-63WIFI`) - назва пристрою в `HA`
 
 Повторюємо додавання для кожного пристрою через `Tuya Local -> Додати пристрій`.\
+- tomzn_tompd_63wifi
+- tomzn_tob9_vap_63
+- smart_plug_002
+- smart_plug_003
+
 Потрібно пройтись по налаштуванням кожного з пристроїв та включити або виключати парамери.
 
 ##### нюанси налаштувань:
@@ -503,6 +524,250 @@ HACS (Home Assistant Community Store) – це магазин співтовар
 
 ---
 
+#### 5.006. HASS Local Tuya
+Інтеграція `HACS` `HASS Local Tuya`.\
+
+Ця інтеграція ще не додана в штатний каталог `HACS`, тому її додаємо в ручну (через пряме посилання на GIT репозиторій).
+
+Перед налаштуванням тре все старе чистити, кеші, файли, інтеграції. Бо підтягуються старі конфіги та інтерфейси.
+
+Для простоти налаштування спочатку встановив та налаштував [Tuya Local](#5002-tuya-local) та пододавав пристрої. Після чого налаштовуємо цю інтеграцію.
+
+Спочатку пробуємо використати шаблон `tomzn_tompd_63wifi.yaml`. Для цього копіюємо шаблон з `data/templates/tomzn_tompd_63wifi.yaml` в `ssssssssssssssssssssssssssssssssssssssssss`
+
+##### Етапи встановлення:
+1. Додаємо: `HACS -> Додаткове меню (...) -> Custom repositories`
+    - `Repository: https://github.com/xZetsubou/hass-localtuya`
+    - `Type: Integration`
+    - підтверджуємо
+2. Встановлюємо:
+    - в пошуку `HACS` шукаємо `Tuya Local`
+    - переходимо
+    - натискаємо `Download`
+    - підтверджуємо
+3. Перезапускаємо HA
+4. Додаємо інтеграцію
+    - `Налаштування -> Пристрої та сервіси (Інтеграції) -> Додати інтеграцію -> Tuya Local`
+   - з’явиться екранчик налаштування `Cloud API account configuration`
+     для отримання цих даних потрібно зареєструватись в `Tuya IoT Platform`,
+     створити та налаштувати проект,
+     деталі як це зробити описані нижче, тут самі налаштування:
+       - https://platform.tuya.com/cloud
+       - `Data Center Region`
+         - `Central Europe Data Center`
+       - `Client ID: upq3e8snws85wqpkwmn5`
+           - `Cloud -> Project Management -> B_14_HA -> Open Project -> Overview -> Access ID/Client ID`
+       - `Secret: 839003c5cc7747ce9b6d246d773473b6`
+           - `... -> Authorization -> Cloud Authorization`
+       - `User ID: eu1770065598764UTYSA`
+           - `... -> Devices -> Link App Account`
+       - `username: serega.n.v333@gmail.com`
+         Це електронна пошта (або номер телефону), на яку ви реєстрували акаунт у мобільному додатку Tuya Smart або Smart Life.
+5. Додаємо новий пристрій (`tomzn_tompd_63wifi_manual`)
+    Для отримання інфи для налаштувань сутностей можна піддивитись конфіги вже доданих (автоматично) сутностей в табличках:
+      - `ha_db.event_data` - дані про події, зміни сутності
+      - `ha_db.state_attributes` - схоже на логи або зміни сутностей
+      - `ha_db.states_meta` - лише назви сутності з типом `binary_sensor.tomzn_tompd_63wifi_problema`
+      - `ha_db.statistics_meta` - якась інфа для статистики, малоінформативно
+    Додаткову інфу про девайси та сутності можна отримати з файлів `storage`
+      - `src/home-assistant/config/.storage/core.device_registry`
+      - `src/home-assistant/config/.storage/core.entity_registry`
+    Заходимо в інтеграцію та додаємо саму сутність:
+      - `Хаби -> Налаштування -> Add new device`
+      - `Add Device Manually`
+      - Configure device connectivity
+        - `Device Name: tomzn_tompd_63wifi_manual`
+        - `IP Address: 192.168.0.100`
+        - `Device ID: bfda025e72943fdb77gcuv`
+        - `Local Key: >Efl^M=Hbyn!ep}E`
+        - `Protocol Version: 3.5`
+        - Додаємо
+      - Configure device entities
+        - `Configure device entities manually` - самі налаштування сутностей для `tomzn_tompd_63wifi` описані нижче.
+      - `Discover device entities automatically` - при такому налаштуванні дані не відображаються
+      - `Use saved template` - можна спробувати раніше налаштований шаблон `tomzn_tompd_63wifi.yaml`
+        - Import template file
+          - `tomzn_tompd_63wifi.yaml`
+          - `sample_2g_switch.yaml`
+          - `sample_lights_bulb.yaml`
+
+##### Реєстрація та налаштування платформи `Tuya IoT Platform`:
+Цей акаунт не є акаунтом `Tuya Smart` (APP додаток). Його потрібно окремо налаштовувати.
+- https://platform.tuya.com/cloud
+
+1. Авторизуємось, деталі в pass.
+2. переходимо в розділ `Cloud -> Project Management`
+3. Створюємо новий хмарний проект `Create Cloud Project`
+4. Вводимо основні дані для створення нового проекту:
+    - `Project Name: B_14_HA`
+    - `Description: B_14_HA`
+    - `Industry: Smart Home`
+    - `Development Method: Smart Home`
+    - `Data Cente: Smart Home`
+        - Ви можете вибрати один або кілька центрів обробки даних, де розгортаються ваші послуги. Але чомусь при створенні можна обрати лише один: `Central Europe Data Center`
+    - Тиснемо `Create`
+5. Вводимо додаткові дані `Configuration Wizard / Authorize API Services`:
+    - тут за замовчуванням вже насетаплені певні сервіси, додав лише `Device Status Notification`
+        - `IoT Core`
+        - `Authorization Token Management`
+        - `Smart Home Basic Service`
+        - `Data Dashboard Service`
+        - `[Deprecate]Smart Home Scene Linkagee`
+        - `Device Status Notification`
+    - тиснемо `Authorize`
+6. В інтерфейсі з'явився новий проект `B_14_HA`, переходимо на нього `Open Project`
+    - в ньому нам знадобиться `Access ID/Client ID: upq3e8snws85wqpkwmn5`
+7. Прив'язуємо наш проект з APP додатком
+    - `... -> Devices -> Link App Account`
+    - тиснемо `Add App Account -> Tuya App Account Authorization`
+    - з'являється вікно з QR кодом
+    - заходимо в APP додаток `Профіль -> Сканувати QR -> Підтвердити`
+    - в `Tuya IoT` зміниться вікно на `Підтвердження`, інфа про 4 девайса, обираємо варіант `Automatic Link (Recommended)`
+    - після цього з'явиться інфа про девайси, закриваємо його і побачимо в вкладці `Link App Account` інфу р оновододаний акаунт
+8. Переходимо в вкладку `... -> Devices -> All Devices`, в ній маємо побачити усі девайси які під'єднані в додатку
+9. Переходимо в вкладку `... -> Authorization -> Cloud Authorization`, в ній бачимо параметри для авторизації в інтеграції `Local Tuya`
+
+##### Налаштування сутностей `tomzn_tompd_63wifi`:
+- `Стан / Condition`
+  - `Entity type selection -> Choose entity: Switch`
+    - `Alarm Control Panel / Панель керування сигналізацією`
+    - `Binary Sensor / Бінарний датчик`
+    - `Button / Кнопка`
+    - `Climate / Клімат`
+    - `Cover / Кришка`
+    - `Fan / Вентилятор`
+    - `Humidifier / Зволожувач`
+    - `Light / Світло`
+    - `Lock / Замок`
+    - `Number / Цифровий`
+    - `Remote / Пульт дистанційного керування`
+    - `Select / Вибір`
+    - `Sensor / Датчик`
+    - `Siren / Сирена`
+    - `Switch / Перемикач`
+    - `Vacuum / Пилосос`
+    - `Water Heater / Водонагрівач`
+  - `DP ID: 16 ( code: switch , value: True )`
+  - `Friendly name for Entity / Зрозуміла назва для сутності: Стан / Condition`
+  - `Show the entity in this category / Показати сутність у цій категорії: None`
+    - `None`
+    - `Configuration / Конфігурація`
+    - `Diagnostic / Діагностика`
+  - `Current / Струм: `
+  - `Current Consumption / Споживання струму: `
+  - `Voltage / Напруга: `
+  - `Restore the last value set in Home Assistant after lost connection? / Відновити останнє значення, встановлене в Home Assistant, після втрати з'єднання?: false`
+    - `true` → HA знову відправить останній стан
+    - `false` → стан береться з пристрою
+  - `Passive entity? (requires integration to send initialisation value) / Пасивна сутність? (потрібна інтеграція для надсилання значення ініціалізації): false`
+    - `true` → HA НЕ керує пристроєм
+    - `false` → повний контроль
+  - `(Optional) Default value when un-initialised / (Необов'язково) Значення за замовчуванням, коли не ініціалізовано: `
+  - `(Optional) Device Class / (Необов'язково) Клас пристрою: switch`
+    - `outlet / розетка` → розетка (з іконкою)
+    - `switch / вимикач` → звичайний перемикач
+  - після створення сутності - змінюємо іконку на `mdi:fuse`
+
+- `Енергія / Energy`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 1 ( code: total_forward_energy , value: 55787 )`
+  - `Friendly name for Entity: Енергія / Energy`
+  - `Show the entity in this category: None`
+  - `(Optional) Unit of Measurement / (Необов'язково) Одиниця вимірювання: kWh`
+  - `(Optional) Device Class: energy`
+  - `(Optional) State Class / (Необов'язково) Клас стану: total_increasing`
+    - `measurement / вимірювання`
+    - `measurement_angle / кут вимірювання`
+    - `total / загальна сума`
+    - `total_increasing / загальне збільшення`
+  - `(Optional) Scaling Factor / (Необов'язково) Коефіцієнт масштабування: 0,01`
+
+- `Оновити датчики / Refresh sensors`
+  - `Entity type selection -> Choose entity: Button`
+  - `DP ID: 106 ( code: refresh , value: False, cloud pull )`
+  - `Friendly name for Entity: Оновити датчики / Refresh sensors`
+  - `Show the entity in this category: Configuration`
+  - після створення сутності - змінюємо іконку на `mdi:cloud-refresh-variant-outline`
+  - !!! Ця кнопка нічого не оновлює, виклик DP 106 → НЕ змушує пристрій відправити нові дані
+
+- `Живлення / Output power`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 118 ( code: output_power , value: 329 )`
+  - `Friendly name for Entity: Живлення`
+  - `Show the entity in this category: Diagnostic`
+  - `(Optional) Unit of Measurement: kW`
+  - `(Optional) Device Class: power`
+  - `(Optional) State Class: `
+    - `measurement`
+    - `measurement_angle`
+    - `total`
+    - `total_increasing`
+  - `(Optional) Scaling Factor: 0,001`
+- `Струм / Output current`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 117 ( code: output_current , value: 3160 )`
+  - `Friendly name for Entity: Струм`
+  - `Show the entity in this category: Diagnostic`
+  - `(Optional) Unit of Measurement: A`
+  - `(Optional) Device Class: current`
+  - `(Optional) State Class: `
+  - `(Optional) Scaling Factor: 0,001`
+- `Струм витоку / Leakage current`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 15 ( code: leakage_current , value: 13 )`
+  - `Friendly name for Entity: Струм витоку / Leakage current`
+  - `Show the entity in this category: Diagnostic`
+  - `(Optional) Unit of Measurement: mA`
+  - `(Optional) Device Class: current`
+  - `(Optional) State Class: `
+  - `(Optional) Scaling Factor: `
+- `Вихідна напруга / Output voltage`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 116 ( code: output_voltage , value: 2159 )`
+  - `Friendly name for Entity: Вихідна напруга / Output voltage`
+  - `Show the entity in this category: Diagnostic`
+  - `(Optional) Unit of Measurement: V`
+  - `(Optional) Device Class: voltage`
+  - `(Optional) State Class: `
+  - `(Optional) Scaling Factor: 0,1`
+- `Частота / Frequency`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 105 ( code: supply_frequency , value: 500 )`
+  - `Friendly name for Entity: Частота / Frequency`
+  - `Show the entity in this category: Diagnostic`
+  - `(Optional) Unit of Measurement: Hz`
+  - `(Optional) Device Class: frequency`
+  - `(Optional) State Class: `
+  - `(Optional) Scaling Factor: 0,1`
+- `Коефіцієнт потужності / Power factor`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 104 ( code: power_factor , value: 660 )`
+  - `Friendly name for Entity: Коефіцієнт потужності / Power factor`
+  - `Show the entity in this category: Diagnostic`
+  - `(Optional) Unit of Measurement: %`
+  - `(Optional) Device Class: power_factor`
+  - `(Optional) State Class: `
+  - `(Optional) Scaling Factor: 0,1`
+- `Проблема / Fault`
+  - `Entity type selection -> Choose entity: Binary Sensor`
+  - `DP ID: 9 ( code: fault , value: 0 )`
+  - `Friendly name for Entity: Проблема / Fault`
+  - `Show the entity in this category: Diagnostic`
+  - `On Values (optionally comma-separated) / Значення (необов'язково, розділені комами): true,1,pir,on`
+  - `(Optional) Device Class: problem`
+  - `(Optional) Interval timer to reset state to off / (Додатково) Інтервальний таймер для скидання стану у вимкнено: 10`
+- `Баланс енергії / Balance energy`
+  - `Entity type selection -> Choose entity: Sensor`
+  - `DP ID: 13 ( code: balance_energy , value: 0 )`
+  - `Friendly name for Entity: Баланс енергії / Balance energy`
+  - `Show the entity in this category: Diagnostic`
+  - `(Optional) Unit of Measurement: kWh`
+  - `(Optional) Device Class: energy_storage`
+  - `(Optional) State Class: `
+  - `(Optional) Scaling Factor: `
+
+---
+
 ### 6. Setup steps
 Етапи налаштування.
 1. Запускаємо [Portainer](#301-portainer)
@@ -511,9 +776,10 @@ HACS (Home Assistant Community Store) – це магазин співтовар
 4. Запускаємо [DBeaver](#304-dbeaver)
 5. Налаштування [Code Server](#305-code-server)
 6. Налаштування [HACS](#5001-setup-hacs)
-7. Налаштування [Tuya](#5002-tuya)
-8. Налаштування [Sonoff](#5004-sonoff)
-9. Налаштування [Solarman](#5005-solarman)
+7. Налаштування [Tuya Local](#5002-tuya-local)
+8. Налаштування [HASS Local Tuya](#5006-hass-local-tuya)
+9. Налаштування [Sonoff](#5004-sonoff)
+10. Налаштування [Solarman](#5005-solarman)
 
 
 10. 

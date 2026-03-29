@@ -1,0 +1,54 @@
+{
+    "apiKey": "t85trp5a8cxvedwate95",
+    "apiSecret": "8bf7fe82d8404729b04647a6f21fc65c",
+    "apiRegion": "eu",
+    "apiDeviceID": "bfda025e72943fdb77gcuv",
+    "trash": [
+        {
+            "name": "Вхідне реле",
+            "ip": "192.168.0.106",
+            "status": "Off",
+            "DPS": "{'1': 32751, '9': 0, '11': False, '13': 0, '15': 13, '16': True, '19': '1234', '104': 694, '105': 502, '116': 2163, '117': 2680, '118': 402}",
+            "DPS_DATA": [
+              "1 ( code: total_forward_energy , value: 55787 )",
+              "6 ( code: phase_a , value: CJIACOgAATk=, cloud pull )",
+              "9 ( code: fault , value: 0 )",
+              "11 ( code: switch_prepayment , value: False )",
+              "12 ( code: clear_energy , value: False, cloud pull )",
+              "13 ( code: balance_energy , value: 0 )",
+              "14 ( code: charge_energy , value: 0, cloud pull )",
+              "15 ( code: leakage_current , value: 13 )",
+              "16 ( code: switch , value: True )",
+              "17 ( code: alarm_set_1 , value: BAEAHg==, cloud pull )",
+              "18 ( code: alarm_set_2 , value: AQEAKAMBAQ4EAQCq, cloud pull )",
+              "19 ( code: breaker_id , value: 1234 )",
+              "21 ( code: leakagecurr_test , value: False, cloud pull )",
+              "101 ( code: clr_all_energy , value: False, cloud pull )",
+              "104 ( code: power_factor , value: 660 )",
+              "105 ( code: supply_frequency , value: 500 )",
+              "106 ( code: refresh , value: False, cloud pull )",
+              "116 ( code: output_voltage , value: 2159 )",
+              "117 ( code: output_current , value: 3160 )",
+              "118 ( code: output_power , value: 329 )"
+            ]
+        },
+        {
+            "name": "TOB9S-VAP TOMZN",
+            "ip": "192.168.0.105",
+            "status": "On",
+            "DPS": "{'1': True, '9': 0, '17': 100, '18': 1791, '19': 3001, '20': 2195, '21': 2, '22': 0, '23': 0, '24': 0, '25': 0, '26': 0, '38': 'memory', '40': 'relay', '41': False, '42': ''}"
+        },
+        {
+            "name": "smart_plug_002",
+            "ip": "192.168.0.103",
+            "status": "On",
+            "DPS": "{'1': True, '9': 0, '20': 1, '21': 0, '22': 0, '23': 2184, '24': 1, '29': 0, '38': 'on', '42': '', '43': ''}"
+        },
+        {
+            "name": "smart_plug_003",
+            "ip": "192.168.0.104",
+            "status": "On",
+            "DPS": "{'1': True, '9': 0, '20': 1, '21': 0, '22': 0, '23': 2188, '24': 1, '29': 0, '38': 'memory', '42': '', '43': ''}"
+        }
+    ]
+}

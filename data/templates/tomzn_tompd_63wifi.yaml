@@ -1,0 +1,94 @@
+- sensor:
+    device_class: power
+    entity_category: diagnostic
+    friendly_name: Живлення
+    icon: ''
+    id: '118'
+    platform: sensor
+    scaling: 0.001
+    unit_of_measurement: kW
+- sensor:
+    device_class: current
+    entity_category: diagnostic
+    friendly_name: Струм
+    icon: ''
+    id: '117'
+    platform: sensor
+    scaling: 0.001
+    unit_of_measurement: A
+- sensor:
+    device_class: current
+    entity_category: diagnostic
+    friendly_name: Струм витоку / Leakage current
+    icon: ''
+    id: '15'
+    platform: sensor
+    unit_of_measurement: mA
+- sensor:
+    device_class: voltage
+    entity_category: diagnostic
+    friendly_name: Вихідна напруга / Output voltage
+    icon: ''
+    id: '116'
+    platform: sensor
+    scaling: 0.1
+    unit_of_measurement: V
+- sensor:
+    device_class: frequency
+    entity_category: diagnostic
+    friendly_name: Частота / Frequency
+    icon: ''
+    id: '105'
+    platform: sensor
+    scaling: 0.1
+    unit_of_measurement: Hz
+- sensor:
+    device_class: power_factor
+    entity_category: diagnostic
+    friendly_name: Коефіцієнт потужності / Power factor
+    icon: ''
+    id: '104'
+    platform: sensor
+    scaling: 0.1
+    unit_of_measurement: '%'
+- binary_sensor:
+    device_class: problem
+    entity_category: diagnostic
+    friendly_name: Проблема / Fault
+    icon: ''
+    id: '9'
+    platform: binary_sensor
+    reset_timer: 10.0
+    state_on: true,1,pir,on
+- sensor:
+    device_class: energy_storage
+    entity_category: diagnostic
+    friendly_name: Баланс енергії / Balance energy
+    icon: ''
+    id: '13'
+    platform: sensor
+    unit_of_measurement: kWh
+- sensor:
+    device_class: energy
+    entity_category: None
+    friendly_name: Енергія / Energy
+    id: '1'
+    platform: sensor
+    scaling: 0.01
+    state_class: total_increasing
+    unit_of_measurement: kWh
+    icon: 'mdi:lightning-bolt'
+- switch:
+    device_class: switch
+    entity_category: None
+    friendly_name: Стан / Condition
+    id: '16'
+    is_passive_entity: false
+    platform: switch
+    restore_on_reconnect: false
+    icon: 'mdi:fuse'
+- button:
+    entity_category: config
+    friendly_name: Оновити датчики / Refresh sensors
+    id: '106'
+    platform: button

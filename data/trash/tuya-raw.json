@@ -1,0 +1,859 @@
+{
+    "result": [
+        {
+            "active_time": 1772187533,
+            "biz_type": 0,
+            "category": "tdq",
+            "create_time": 1772187533,
+            "icon": "smart/icon/ay15532588194335cLlF/fe6b3ff8481bba0c3433750f45afa233.jpg",
+            "id": "bf6a67c0a94a873b89hqhu",
+            "ip": "178.74.227.235",
+            "lat": "0",
+            "local_key": "`e&e4:8s:@DQ?I6U",
+            "lon": "0",
+            "model": "",
+            "name": "smart_plug_002",
+            "online": true,
+            "owner_id": "274422494",
+            "product_id": "hlfmbtcfrcqvnqja",
+            "product_name": "Smart Plug",
+            "status": [
+                {
+                    "code": "switch_1",
+                    "value": true
+                },
+                {
+                    "code": "countdown_1",
+                    "value": 0
+                },
+                {
+                    "code": "add_ele",
+                    "value": 1
+                },
+                {
+                    "code": "cur_current",
+                    "value": 0
+                },
+                {
+                    "code": "cur_power",
+                    "value": 0
+                },
+                {
+                    "code": "cur_voltage",
+                    "value": 2184
+                },
+                {
+                    "code": "test_bit",
+                    "value": 1
+                },
+                {
+                    "code": "fault",
+                    "value": 0
+                },
+                {
+                    "code": "relay_status",
+                    "value": "1"
+                },
+                {
+                    "code": "random_time",
+                    "value": ""
+                },
+                {
+                    "code": "cycle_time",
+                    "value": ""
+                }
+            ],
+            "sub": false,
+            "time_zone": "+02:00",
+            "uid": "eu1770065598764UTYSA",
+            "update_time": 1772720420,
+            "uuid": "6688bc94e43f1dab",
+            "mapping": {
+                "1": {
+                    "code": "switch_1",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "9": {
+                    "code": "countdown_1",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "s",
+                        "min": 0,
+                        "max": 86400,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "20": {
+                    "code": "add_ele",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "kW\u00b7h",
+                        "min": 0,
+                        "max": 50000,
+                        "scale": 3,
+                        "step": 100
+                    }
+                },
+                "21": {
+                    "code": "cur_current",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "mA",
+                        "min": 0,
+                        "max": 30000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "22": {
+                    "code": "cur_power",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "W",
+                        "min": 0,
+                        "max": 50000,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "23": {
+                    "code": "cur_voltage",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "V",
+                        "min": 0,
+                        "max": 5000,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "24": {
+                    "code": "test_bit",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 5,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "29": {
+                    "code": "fault",
+                    "type": "Bitmap",
+                    "values": {
+                        "label": [
+                            "ov_cr",
+                            "ov_vol",
+                            "ov_pwr",
+                            "ls_cr",
+                            "ls_vol",
+                            "ls_pow"
+                        ]
+                    }
+                },
+                "38": {
+                    "code": "relay_status",
+                    "type": "Enum",
+                    "values": {
+                        "range": [
+                            "0",
+                            "1",
+                            "2"
+                        ]
+                    }
+                },
+                "42": {
+                    "code": "random_time",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                },
+                "43": {
+                    "code": "cycle_time",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                }
+            }
+        },
+        {
+            "active_time": 1770065898,
+            "biz_type": 0,
+            "category": "dlq",
+            "create_time": 1770065898,
+            "icon": "smart/icon/bay1626428014043QkLC/e6eab774bdef044b6c63880fbf814214.png",
+            "id": "bfda025e72943fdb77gcuv",
+            "ip": "178.74.227.235",
+            "lat": "49.22",
+            "local_key": "}E4j${<'YMuflk<n",
+            "lon": "28.44",
+            "model": "",
+            "name": "\u0412\u0445\u0456\u0434\u043d\u0435 \u0440\u0435\u043b\u0435",
+            "online": true,
+            "owner_id": "274422494",
+            "product_id": "u0cxoxtfelys3ufx",
+            "product_name": "Breaker",
+            "status": [
+                {
+                    "code": "total_forward_energy",
+                    "value": 32751
+                },
+                {
+                    "code": "phase_a",
+                    "value": "CNUAClAAAZc="
+                },
+                {
+                    "code": "fault",
+                    "value": 0
+                },
+                {
+                    "code": "switch_prepayment",
+                    "value": false
+                },
+                {
+                    "code": "energy_reset",
+                    "value": ""
+                },
+                {
+                    "code": "balance_energy",
+                    "value": 0
+                },
+                {
+                    "code": "charge_energy",
+                    "value": 0
+                },
+                {
+                    "code": "leakage_current",
+                    "value": 13
+                },
+                {
+                    "code": "switch",
+                    "value": true
+                },
+                {
+                    "code": "alarm_set_1",
+                    "value": "BAEAHg=="
+                },
+                {
+                    "code": "alarm_set_2",
+                    "value": "AQEAKAMBAQ4EAQCq"
+                },
+                {
+                    "code": "breaker_number",
+                    "value": "1234"
+                },
+                {
+                    "code": "leakagecurr_test",
+                    "value": false
+                },
+                {
+                    "code": "supply_frequency",
+                    "value": 502
+                }
+            ],
+            "sub": false,
+            "time_zone": "+02:00",
+            "uid": "eu1770065598764UTYSA",
+            "update_time": 1772681524,
+            "uuid": "f6e8ff5c20e328e6",
+            "mapping": {
+                "1": {
+                    "code": "total_forward_energy",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "kW\u00b7h",
+                        "min": 0,
+                        "max": 99999999,
+                        "scale": 2,
+                        "step": 1
+                    }
+                },
+                "6": {
+                    "code": "phase_a",
+                    "type": "Raw",
+                    "values": {}
+                },
+                "9": {
+                    "code": "fault",
+                    "type": "Bitmap",
+                    "values": {
+                        "label": [
+                            "short_circuit_alarm",
+                            "surge_alarm",
+                            "overload_alarm",
+                            "leakagecurr_alarm",
+                            "temp_dif_fault",
+                            "fire_alarm",
+                            "high_power_alarm",
+                            "self_test_alarm",
+                            "ov_cr",
+                            "unbalance_alarm",
+                            "ov_vol",
+                            "undervoltage_alarm",
+                            "miss_phase_alarm",
+                            "outage_alarm",
+                            "magnetism_alarm",
+                            "credit_alarm",
+                            "no_balance_alarm"
+                        ]
+                    }
+                },
+                "11": {
+                    "code": "switch_prepayment",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "12": {
+                    "code": "energy_reset",
+                    "type": "Enum",
+                    "values": {
+                        "range": [
+                            "empty"
+                        ]
+                    }
+                },
+                "13": {
+                    "code": "balance_energy",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "kW\u00b7h",
+                        "min": 0,
+                        "max": 999999,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "14": {
+                    "code": "charge_energy",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "kW\u00b7h",
+                        "min": 0,
+                        "max": 99999,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "15": {
+                    "code": "leakage_current",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "mA",
+                        "min": 0,
+                        "max": 1000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "16": {
+                    "code": "switch",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "17": {
+                    "code": "alarm_set_1",
+                    "type": "Raw",
+                    "values": {}
+                },
+                "18": {
+                    "code": "alarm_set_2",
+                    "type": "Raw",
+                    "values": {}
+                },
+                "19": {
+                    "code": "breaker_number",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                },
+                "21": {
+                    "code": "leakagecurr_test",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "105": {
+                    "code": "supply_frequency",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "Hz",
+                        "min": 0,
+                        "max": 1000,
+                        "scale": 1,
+                        "step": 1
+                    }
+                }
+            }
+        },
+        {
+            "active_time": 1772187633,
+            "biz_type": 0,
+            "category": "tdq",
+            "create_time": 1772187633,
+            "icon": "smart/icon/ay15532588194335cLlF/fe6b3ff8481bba0c3433750f45afa233.jpg",
+            "id": "bf8e9fcfd9ca7d8f73p6li",
+            "ip": "178.74.227.235",
+            "lat": "0",
+            "local_key": "mo0k=+5!LW`Fs~[.",
+            "lon": "0",
+            "model": "",
+            "name": "smart_plug_003",
+            "online": true,
+            "owner_id": "274422494",
+            "product_id": "hlfmbtcfrcqvnqja",
+            "product_name": "Smart Plug",
+            "status": [
+                {
+                    "code": "switch_1",
+                    "value": true
+                },
+                {
+                    "code": "countdown_1",
+                    "value": 0
+                },
+                {
+                    "code": "add_ele",
+                    "value": 1
+                },
+                {
+                    "code": "cur_current",
+                    "value": 0
+                },
+                {
+                    "code": "cur_power",
+                    "value": 0
+                },
+                {
+                    "code": "cur_voltage",
+                    "value": 2188
+                },
+                {
+                    "code": "test_bit",
+                    "value": 1
+                },
+                {
+                    "code": "fault",
+                    "value": 0
+                },
+                {
+                    "code": "relay_status",
+                    "value": "2"
+                },
+                {
+                    "code": "random_time",
+                    "value": ""
+                },
+                {
+                    "code": "cycle_time",
+                    "value": ""
+                }
+            ],
+            "sub": false,
+            "time_zone": "+02:00",
+            "uid": "eu1770065598764UTYSA",
+            "update_time": 1772653876,
+            "uuid": "39d842d942a49ef3",
+            "mapping": {
+                "1": {
+                    "code": "switch_1",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "9": {
+                    "code": "countdown_1",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "s",
+                        "min": 0,
+                        "max": 86400,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "20": {
+                    "code": "add_ele",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "kW\u00b7h",
+                        "min": 0,
+                        "max": 50000,
+                        "scale": 3,
+                        "step": 100
+                    }
+                },
+                "21": {
+                    "code": "cur_current",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "mA",
+                        "min": 0,
+                        "max": 30000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "22": {
+                    "code": "cur_power",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "W",
+                        "min": 0,
+                        "max": 50000,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "23": {
+                    "code": "cur_voltage",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "V",
+                        "min": 0,
+                        "max": 5000,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "24": {
+                    "code": "test_bit",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 5,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "29": {
+                    "code": "fault",
+                    "type": "Bitmap",
+                    "values": {
+                        "label": [
+                            "ov_cr",
+                            "ov_vol",
+                            "ov_pwr",
+                            "ls_cr",
+                            "ls_vol",
+                            "ls_pow"
+                        ]
+                    }
+                },
+                "38": {
+                    "code": "relay_status",
+                    "type": "Enum",
+                    "values": {
+                        "range": [
+                            "0",
+                            "1",
+                            "2"
+                        ]
+                    }
+                },
+                "42": {
+                    "code": "random_time",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                },
+                "43": {
+                    "code": "cycle_time",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                }
+            }
+        },
+        {
+            "active_time": 1770066314,
+            "biz_type": 0,
+            "category": "dlq",
+            "create_time": 1770066314,
+            "icon": "smart/icon/bay1752052016085phrx/4b7eb350117b526892192cf7ea21384d.jpg",
+            "id": "bfbeed16c01eb5b50ecqp0",
+            "ip": "178.74.227.235",
+            "lat": "49.22",
+            "local_key": "Akc;M?DYY<T{WdY]",
+            "lon": "28.44",
+            "model": "TOB9S-VAP",
+            "name": "TOB9S-VAP TOMZN",
+            "online": true,
+            "owner_id": "274422494",
+            "product_id": "putazbdmd0wueoph",
+            "product_name": "TOB9S-VAP TOMZN",
+            "status": [
+                {
+                    "code": "switch",
+                    "value": true
+                },
+                {
+                    "code": "countdown_1",
+                    "value": 0
+                },
+                {
+                    "code": "add_ele",
+                    "value": 100
+                },
+                {
+                    "code": "cur_current",
+                    "value": 1791
+                },
+                {
+                    "code": "cur_power",
+                    "value": 3001
+                },
+                {
+                    "code": "cur_voltage",
+                    "value": 2195
+                },
+                {
+                    "code": "test_bit",
+                    "value": 2
+                },
+                {
+                    "code": "voltage_coe",
+                    "value": 0
+                },
+                {
+                    "code": "electric_coe",
+                    "value": 0
+                },
+                {
+                    "code": "power_coe",
+                    "value": 0
+                },
+                {
+                    "code": "electricity_coe",
+                    "value": 0
+                },
+                {
+                    "code": "fault",
+                    "value": 0
+                },
+                {
+                    "code": "relay_status",
+                    "value": "last"
+                },
+                {
+                    "code": "light_mode",
+                    "value": "relay"
+                },
+                {
+                    "code": "child_lock",
+                    "value": false
+                },
+                {
+                    "code": "cycle_time",
+                    "value": ""
+                },
+                {
+                    "code": "alarm_set_1",
+                    "value": "BQEAZAcAAAA="
+                },
+                {
+                    "code": "alarm_set_2",
+                    "value": "AQEAPwMBAQkEAQBa"
+                },
+                {
+                    "code": "online_state",
+                    "value": "online"
+                }
+            ],
+            "sub": false,
+            "time_zone": "+02:00",
+            "uid": "eu1770065598764UTYSA",
+            "update_time": 1772653876,
+            "uuid": "03207c2f66a2c64b",
+            "mapping": {
+                "1": {
+                    "code": "switch",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "9": {
+                    "code": "countdown_1",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "s",
+                        "min": 0,
+                        "max": 86400,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "17": {
+                    "code": "add_ele",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 50000,
+                        "scale": 3,
+                        "step": 100
+                    }
+                },
+                "18": {
+                    "code": "cur_current",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "mA",
+                        "min": 0,
+                        "max": 100000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "19": {
+                    "code": "cur_power",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "W",
+                        "min": 0,
+                        "max": 99999,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "20": {
+                    "code": "cur_voltage",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "V",
+                        "min": 0,
+                        "max": 5000,
+                        "scale": 1,
+                        "step": 1
+                    }
+                },
+                "21": {
+                    "code": "test_bit",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 5,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "22": {
+                    "code": "voltage_coe",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 1000000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "23": {
+                    "code": "electric_coe",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 1000000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "24": {
+                    "code": "power_coe",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 1000000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "25": {
+                    "code": "electricity_coe",
+                    "type": "Integer",
+                    "values": {
+                        "min": 0,
+                        "max": 1000000,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "26": {
+                    "code": "fault",
+                    "type": "Bitmap",
+                    "values": {
+                        "label": [
+                            "ov_cr",
+                            "ov_vol",
+                            "ov_pwr",
+                            "ls_cr",
+                            "ls_vol",
+                            "ls_pow",
+                            "short_circuit_alarm",
+                            "overload_alarm",
+                            "leakagecurr_alarm",
+                            "self_test_alarm",
+                            "high_temp",
+                            "unbalance_alarm",
+                            "miss_phase_alarm"
+                        ]
+                    }
+                },
+                "38": {
+                    "code": "relay_status",
+                    "type": "Enum",
+                    "values": {
+                        "range": [
+                            "power_off",
+                            "power_on",
+                            "last"
+                        ]
+                    }
+                },
+                "40": {
+                    "code": "light_mode",
+                    "type": "Enum",
+                    "values": {
+                        "range": [
+                            "relay",
+                            "pos",
+                            "none",
+                            "on"
+                        ]
+                    }
+                },
+                "41": {
+                    "code": "child_lock",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "42": {
+                    "code": "cycle_time",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                },
+                "48": {
+                    "code": "alarm_set_1",
+                    "type": "Raw",
+                    "values": {}
+                },
+                "49": {
+                    "code": "alarm_set_2",
+                    "type": "Raw",
+                    "values": {}
+                },
+                "66": {
+                    "code": "online_state",
+                    "type": "Enum",
+                    "values": {
+                        "range": [
+                            "online",
+                            "offline"
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "success": true,
+    "t": 1772791108796,
+    "tid": "0671db3a194311f18255b6b5e3717ca9",
+    "file": {
+        "name": "tuya-raw.json",
+        "description": "Full raw list of Tuya devices.",
+        "account": "t85trp5a8cxvedwate95",
+        "date": "2026-03-06T11:58:30.447676",
+        "tinytuya": "1.17.6"
+    }
+}
