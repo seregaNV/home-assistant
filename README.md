@@ -155,12 +155,7 @@ Portainer — зручний інтерфейс керування контей�
        mariadb: "mysql://ha_user:OtPgHWk8zKDoY56F@mariadb/ha_db?charset=utf8mb4"
      ```
    - налаштовуємо підключення до `mariadb`
-     додаємо конфіг в `src/home-assistant/config/configuration.yaml`
-     ```YAML
-       recorder:
-         db_url: !secret mariadb
-         purge_keep_days: 30
-     ```
+     копіпастимо конфіги з `data/configs/configuration.yaml` в `src/home-assistant/config/configuration.yaml`
 
 ##### нюанси налаштувань:
 - в самій IDE не відображаються дані з `/home-assistant/src/mariadb/data/ha_db`
