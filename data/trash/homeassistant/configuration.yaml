@@ -1,0 +1,352 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+template:
+  # ===============================
+  # 1️⃣ Binary sensor горілки
+  # ===============================
+  - binary_sensor:
+      - name: gas_burner_binary
+        unique_id: gas_burner_binary
+        state: "{{ states('sensor.sonoff_100264b64a_power') | float(0) > 90 }}"
+        device_class: running
+
+  # ===============================
+  # 2️⃣ Numeric sensor (ON = 1 / OFF = 0)
+  # ===============================
+  - sensor:
+      - name: boiler_gas_burner
+        state: "{{ 1 if is_state('binary_sensor.gas_burner_binary','on') else 0 }}"
+        state_class: measurement
+        unit_of_measurement: "1"
+
+  # ===============================
+  # 3️⃣ Manual gas meter
+  # ===============================
+  - sensor:
+      - name: gas_meter_manual
+        state: "{{ states('input_number.gas_meter_manual') }}"
+        device_class: gas
+        state_class: total_increasing
+        unit_of_measurement: "m³"
+
+  # ===============================
+  # 4️⃣ Average gas per cycle
+  # ===============================
+  - sensor:
+      - name: boiler_gas_burner_cycle_avg
+        unit_of_measurement: "m³"
+        state: >
+          {% set gas = states('sensor.gas_meter_manual') | float(0) %}
+          {% set starts = states('counter.boiler_gas_burner_starts_total') | float(0) %}
+          {% if starts > 0 %}
+            {{ gas / starts }}
+          {% else %}
+            0
+          {% endif %}
+
+  # ===============================
+  # 5️⃣ Total calculated gas
+  # ===============================
+  - sensor:
+      - name: boiler_gas_total_calculated
+        device_class: gas
+        state_class: total_increasing
+        unit_of_measurement: "m³"
+        state: >
+          {% set avg = states('sensor.boiler_gas_burner_cycle_avg') | float(0) %}
+          {% set starts = states('counter.boiler_gas_burner_starts_total') | float(0) %}
+          {{ avg * starts }}
+
+
+  - binary_sensor:
+      - name: grid_220_in_state
+        state: >
+          {{ states('sensor.srne_esp8266_grid_frequency') | float(0) > 1 }}
+        device_class: power
+        delay_off: "00:00:10"
+        delay_on: "00:00:05"
+  - sensor:
+      - name: "Grid 220 OFF Cost Today"
+        unit_of_measurement: "UAH"
+        state: >
+          {% set hours = states('sensor.grid_220_off_today') | float(0) %}
+          {% set cost = states('input_number.generator_cost_per_hour') | float(0) %}
+          {{ (hours * cost) | round(2) }}
+  - sensor:
+      - name: "Grid 220 OFF Cost Month"
+        unit_of_measurement: "UAH"
+        state: >
+          {% set hours = states('sensor.grid_220_off_month') | float(0) %}
+          {% set cost = states('input_number.generator_cost_per_hour') | float(0) %}
+          {{ (hours * cost) | round(2) }}
+  - sensor:
+      - name: "tompd63lw frequency"
+        unique_id: "tompd63lw_frequency"
+        unit_of_measurement: "Hz"
+        state_class: "measurement"
+        state: >
+          {{ (state_attr('sensor.tompd_63lw_supply_frequency', 'raw_state') / 10) }}
+  - sensor:
+      - name: "tompd63lw voltage"
+        unit_of_measurement: "V"
+        state_class: "measurement"
+        unique_id: "tompd63lw_voltage"
+        state: >
+          {{ (state_attr('sensor.tompd_63lw_output_voltage', 'raw_state') / 10) }}
+  # {{ (state_attr('sensor.voltage', 'raw_state') / 10) }}
+  - sensor:
+      - name: "GL121000M8_voltage"
+        unit_of_measurement: "V"
+        state_class: "measurement"
+        unique_id: "GL121000M8_voltage"
+        state: >
+          {{ (states('sensor.pv1800_inverter_battery_voltage') | float(0) / 2) | round(2) }}
+  - sensor:
+      - name: "tompd63lw power"
+        unique_id: "tompd63lw_power"
+        unit_of_measurement: "W"
+        device_class: "power"
+        state_class: "measurement"
+        state: >
+          {{ (state_attr('sensor.tompd_63lw_output_power', 'raw_state')) }}
+  # {{ (state_attr('sensor.active_power', 'raw_state')) }}
+  - sensor:
+      - name: "tompd63lw 220 in"
+        unit_of_measurement: "kWh"
+        unique_id: "tompd63lw_220_in"
+        state_class: "measurement"
+        state: >
+          {{ (state_attr('sensor.tompd_63lw_total_forward_energy', 'raw_state') / 100) }}
+  # {{ (state_attr('sensor.total_220', 'raw_state') / 100) }}
+  - sensor:
+      - name: "tompd63lw current"
+        unit_of_measurement: "A"
+        unique_id: "tompd63lw_current"
+        state_class: "measurement"
+        state: >
+          {{ (state_attr('sensor.tompd_63lw_output_current', 'raw_state') / 1000) }}
+  # {{ (state_attr('sensor.current', 'raw_state') / 1000) }}
+  - sensor:
+      - name: "tompd63lw power_factor"
+        unique_id: "tompd63lw_power_factor"
+        state_class: "measurement"
+        state: >
+          {{ (state_attr('sensor.tompd_63lw_power_factor', 'raw_state') / 1000) | round(2) }}
+  # {{ (state_attr('sensor.power_factor', 'raw_state') / 1000) | round(2) }}
+  - sensor:
+      - name: "tompd63lw leakage current"
+        unique_id: "tompd63lw_leakage_current"
+        unit_of_measurement: "mA"
+        state_class: "measurement"
+        state: >
+          {{ (state_attr('sensor.tompd_63lw_leakage_current', 'raw_state')) }}
+  - sensor:
+      - name: "battery_power_charge"
+        unit_of_measurement: "W"
+        unique_id: "tompd63lw_power_charge"
+        state_class: "measurement"
+        state: >
+          {% set pc = states('sensor.pv1800_batt_power') | int(0) %}
+          {% if pc < 0 %} {{(pc * (-1))}}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "battery_power_discharge"
+        unique_id: "tompd63lw_power_discharge"
+        unit_of_measurement: "W"
+        state_class: "measurement"
+        state: >-
+          {% set pd = states('sensor.pv1800_batt_power') | int(0) %}
+          {% if pd > 0 %} {{(pd)}}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "pv_solar_amperage"
+        unique_id: "pv_solar_amperage"
+        unit_of_measurement: "A"
+        state_class: "measurement"
+        state: >
+          {% set pv_power = states('sensor.pv1800_charger_power') | int(0) %}
+          {% set pv_voltage = states('sensor.pv1800_pv_voltage') | int(0) %}
+          {% if pv_power > 0 and pv_voltage > 0 %} {{ (pv_power / pv_voltage) | round(2) }}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "grid_power_factor"
+        unique_id: "grid_power_factor"
+        state_class: "measurement"
+        state: >
+          {% set grid_va = states('sensor.pv1800_sgrid') | int(0) %}
+          {% set grid_w = states('sensor.pv1800_pgrid') | int(0) %}
+          {% if grid_va > 0 and grid_w > 0 %} {{ ( grid_w / grid_va) | round(2) }}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "load_power_factor"
+        unique_id: "load_power_factor"
+        state_class: "measurement"
+        state: >
+          {% set load_va = states('sensor.pv1800_sload') | int(0) %}
+          {% set load_w = states('sensor.pv1800_pload') | int(0) %}
+          {% if load_va > 0 and load_w > 0 %} {{ ( load_w / load_va) | round(2) }}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "inverter_power_factor"
+        unique_id: "inverter_power_factor"
+        state_class: "measurement"
+        state: >
+          {% set inverter_va = states('sensor.pv1800_sinverter') | int(0) %}
+          {% set inverter_w = states('sensor.pv1800_pinverter') | int(0) %}
+          {% if inverter_va > 0 and inverter_w > 0 %} {{ ( inverter_w / inverter_va) | round(2) }}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "grid_performance"
+        unique_id: "grid_performance"
+        state_class: "measurement"
+        state: >
+          {% set grid_va = states('sensor.pv1800_sgrid') | int(0) %}
+          {% set load_va = states('sensor.pv1800_sload') | int(0) %}
+          {% if grid_va > 0 and load_va > 0 %} {{ ( load_va / grid_va) | round(2) }}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "inverter_performance"
+        unique_id: "inverter_performance"
+        state_class: "measurement"
+        state: >
+          {% set inverter_va = states('sensor.pv1800_sinverter') | int(0) %}
+          {% set load_va = states('sensor.pv1800_sload') | int(0) %}
+          {% if inverter_va > 0 and load_va > 0 %} {{ ( load_va / inverter_va) | round(2) }}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "solar_supply"
+        unique_id: "solar_supply"
+        state_class: "measurement"
+        state: >
+          {% set solar_generate_w = states('sensor.pv1800_charger_power') | int(0) %}
+          {% set battery_charge_w = states('sensor.battery_power_charge') | int(0) %}
+          {% set load_w = states('sensor.pv1800_pload') | int(0) %}
+          {% set offgrid = states('sensor.pv1800_work_state') == 'OffGrid' %}
+          {% set bypass = states('sensor.pv1800_work_state') == 'ByPass' %}
+          {% if offgrid and solar_generate_w > 0 and battery_charge_w > 0 %} {{ ( solar_generate_w - battery_charge_w - load_w ) }}
+          {% elif bypass and solar_generate_w > 0 and battery_charge_w > 0 %} {{ ( solar_generate_w - battery_charge_w ) }}
+          {% else %} 0
+          {% endif %}
+  - sensor:
+      - name: "Total Battery Power"
+        unique_id: total_battery_power
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {{
+            states('sensor.eve280k_8s_power_2') | float(0)
+            + states('sensor.lishen130_lishen130_8s_power') | float(0)
+            + states('sensor.eve230_eve230_8s_power') | float(0)
+          }}
+  - sensor:
+      - name: "Pump Water Total"
+        unique_id: pump_water_total
+        unit_of_measurement: "m³"
+        device_class: water
+        state_class: total_increasing
+        state: >
+          {{ (states('sensor.sonoff_100264c393_energy_day') | float(0) * 0.7) | round(3) }}
+
+
+counter:
+  boiler_gas_burner_starts_total:
+    initial: 0
+    step: 1
+
+
+sensor:
+  - platform: integration
+    source: sensor.battery_power_charge
+    name: energy_battery_charge
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+  - platform: integration
+    source: sensor.battery_power_discharge
+    name: energy_battery_discharge
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+  - platform: history_stats
+    name: grid_220_off_today
+    entity_id: binary_sensor.grid_220_in_state
+    state: "off"
+    type: time
+    start: "{{ today_at('00:00') }}"
+    end: "{{ now() }}"
+  - platform: history_stats
+    name: grid_220_off_month
+    entity_id: binary_sensor.grid_220_in_state
+    state: "off"
+    type: time
+    start: "{{ now().replace(day=1, hour=0, minute=0, second=0) }}"
+    end: "{{ now() }}"
+  - platform: integration
+    source: sensor.boiler_gas_burner
+    name: boiler_gas_burner_hours_total
+    unit_time: h
+    method: trapezoidal
+
+
+utility_meter:
+  tompd63lw_hourly:
+    source: sensor.tompd63lw_220_in
+    cycle: hourly
+  tompd63lw_daily:
+    source: sensor.tompd63lw_220_in
+    cycle: daily
+  tompd63lw_monthly:
+    source: sensor.tompd63lw_220_in
+    cycle: monthly
+
+  pump_water_daily:
+    source: sensor.pump_water_total
+    cycle: daily
+
+  pump_water_monthly:
+    source: sensor.pump_water_total
+    cycle: monthly
+
+  pump_water_yearly:
+    source: sensor.pump_water_total
+    cycle: yearly
+
+  gas_hourly:
+    source: sensor.boiler_gas_total_calculated
+    cycle: hourly
+
+  gas_daily:
+    source: sensor.boiler_gas_total_calculated
+    cycle: daily
+
+  gas_monthly:
+    source: sensor.boiler_gas_total_calculated
+    cycle: monthly
+
+  burner_hours_daily:
+    source: sensor.boiler_gas_burner_hours_total
+    cycle: daily
+
+  burner_starts_daily:
+    source: sensor.boiler_gas_burner_starts_total
+    cycle: daily

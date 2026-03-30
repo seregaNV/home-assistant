@@ -1,0 +1,38 @@
+- id: '1774799426739'
+  alias: tomzn_tompd_63wifi_update_sensors
+  description: ''
+  trace:
+    stored_traces: 0
+  triggers:
+  - trigger: time_pattern
+    seconds: /1
+  conditions: []
+  actions:
+  - action: homeassistant.update_entity
+    data:
+      entity_id:
+      - sensor.tomzn_tompd_63wifi_energiia
+      - sensor.tomzn_tompd_63wifi_zhivlennia
+      - sensor.tomzn_tompd_63wifi_napruga
+      - sensor.tomzn_tompd_63wifi_strum
+      - binary_sensor.tomzn_tompd_63wifi_problema
+      - sensor.tomzn_tompd_63wifi_chastota
+      - sensor.tomzn_tompd_63wifi_koefitsiient_potuzhnosti
+      - sensor.tomzn_tompd_63wifi_balance_energy
+      - sensor.tomzn_tompd_63wifi_leakage_current
+  mode: single
+- id: '1774800782979'
+  alias: tomzn_tompd_63wifi_refresh_sensors
+  description: ''
+  trace:
+    stored_traces: 0
+  triggers:
+  - trigger: time_pattern
+    seconds: /1
+  conditions: []
+  actions:
+  - device_id: fa5594d096ae83b4d830064e02a15a6f
+    domain: button
+    entity_id: cf915518753fa83e5362b1a858665101
+    type: press
+  mode: single

@@ -12,4 +12,54 @@ scene: !include scenes.yaml
 
 recorder:
   db_url: !secret mariadb
-  purge_keep_days: 30
+  purge_keep_days: 7 # Зберігати лише 7 днів
+  exclude:
+    # 1. Вимикаємо запис усіх автоматизацій (вони створюють багато логів)
+    domains:
+      - automation
+      - device_tracker
+      - update
+      - scene
+
+    # 2. Вимикаємо конкретні "шумні" сенсори за шаблоном (наприклад, енергомоніторинг)
+    entity_globs:
+      - sensor.*_power
+      - sensor.*_energy*
+      - sensor.processor_use
+      - sensor.memory_use_percent
+
+    # 3. Вимикаємо конкретні сутності (наприклад, час/дата)
+    entities:
+      - sensor.date_time
+      - sensor.uptime
+      - automation.tomzn_tompd_63wifi_refresh_sensors
+      - button.tomzn_tompd_63wifi_refresh_sensors
+
+logbook:
+  exclude:
+    # 1. Вимикаємо запис усіх автоматизацій (вони створюють багато логів)
+    domains:
+      - automation
+      - device_tracker
+      - update
+      - scene
+      - button
+
+    # 2. Вимикаємо конкретні "шумні" сенсори за шаблоном (наприклад, енергомоніторинг)
+    entity_globs:
+      - sensor.*_power
+      - sensor.*_energy*
+      - sensor.processor_use
+      - sensor.memory_use_percent
+      - automation.*
+      - automation.*refresh*
+      - button.*refresh*
+      - "*refresh*"
+      - "*tomzn_tompd*"
+
+    # 3. Вимикаємо конкретні сутності (наприклад, час/дата)
+    entities:
+      - sensor.date_time
+      - sensor.uptime
+      - automation.tomzn_tompd_63wifi_refresh_sensors
+      - button.tomzn_tompd_63wifi_refresh_sensors
