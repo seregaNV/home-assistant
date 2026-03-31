@@ -10,6 +10,7 @@
   - [DBeaver](#304-dbeaver)
   - [Code Server](#305-code-server)
   - [Mosquitto](#306-mosquitto)
+  - [Zigbee2MQTT](#307-zigbee2mqtt)
 - [Офіційні інтеграції](#4-integrations)
 - [HACS](#5-hacs)
   - [Налаштування HACS](#5001-setup-hacs)
@@ -112,6 +113,9 @@ recorder:
 #### 3.01. Portainer
 Portainer — зручний інтерфейс керування контейнерами (Docker/Kubernetes) з браузера.
 
+Додаткова інфа:
+- https://io-home.ru/home-assistant/docker-container/docker-chast-2-docker-i-portainer/
+
 1. Запускаємо
    - command: `docker compose up portainer`
 2. Відкриваємо в браузері та налаштовуємо доступ
@@ -128,6 +132,9 @@ Portainer — зручний інтерфейс керування контей�
 
 #### 3.02. Home Assistant
 Домашній помічник – окрема установка основного домашнього помічника.
+
+Додаткова інфа:
+- https://io-home.ru/home-assistant/docker-container/docker-chast-3-home-assistant-container/
 
 1. Запускаємо
     - command: `docker compose up home-assistant`
@@ -159,6 +166,9 @@ Portainer — зручний інтерфейс керування контей�
 
 #### 3.03. MariaDB
 Локальна БД.
+
+Додаткова інфа:
+- https://io-home.ru/home-assistant/docker-container/docker-chast-5-mariadb/
 
 1. Запускаємо
     - command: `docker compose up mariadb`
@@ -204,18 +214,29 @@ Portainer — зручний інтерфейс керування контей�
 #### 3.05. Code Server
 Віртуальна IDE, для можливості правити код на віртуальній машині
 
+Додаткова інфа:
+- https://io-home.ru/home-assistant/docker-container/docker-chast-4-file-editor/
+
 1. Запускаємо
     - command: `docker compose up code-server`
 2. Відкриваємо в браузері
     - host: http://127.0.0.1:8443
-3. Додаємо пункт [меню](#703-configurator)
+3. Доналаштовуємо
+    - `Color Theme: Dark Modern`
+4. Додаємо пункт [меню](#703-configurator)
 
 ---
 
 #### 3.06. Mosquitto
 Mosquitto — брокер повідомлень MQTT. Щоб дозволити пристроям використовувати модель публікації/підписки на обмін повідомленнями.\
+Zigbee - це бездротовий протокол, подібний до WiFi, але розроблений спеціально для пристроїв IoT.\
+Пристрої з'єднуються в пористу мережу, де пристрої з живленням від мережі (наприклад, лампочки та розумні розетки) виступають як роутери для збільшення радіуса дії мережі.\
+Координатор Zigbee знаходиться в центрі мережі Zigbee і забезпечує взаємодію з пристроями, які не належать до Zigbee.\
 
-1. Перед запуском потрібно створити пусті файліки, бо буде сипати помилки `Error: Unable to open config file '/mosquitto/config/mosquitto.conf'`:
+Додаткова інфа:
+- https://io-home.ru/home-assistant/docker-container/docker-chast-6-mosquitto-mqtt/
+
+1. Перед запуском потрібно створити пусті файліки (можна прямо в терміналі від поточного юзера, не обов'язково від рута, необов'язково змінюватти права), бо буде сипати помилки `Error: Unable to open config file '/mosquitto/config/mosquitto.conf'`:
    - `mkdir ./src/mosquitto`
    - `mkdir ./src/mosquitto/config`
    - `mkdir ./src/mosquitto/log`
@@ -227,25 +248,10 @@ Mosquitto — брокер повідомлень MQTT. Щоб дозволит�
    - `docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/mqttuser mqtt_user`
       - user: mqtt_user
       - pass: MumsaXHEBA7TAsLZ
-4. Додаємо конфіги для `mosquitto`
-    - створюємо файл конфігурації `./src/mosquitto/config/mosquitto.conf`
-    - додаємо наступний код:
-      ```nginx configuration
-        persistence true
-        persistence_location /mosquitto/data/
-
-        listener 1883
-
-        allow_anonymous false
-
-        log_dest file /mosquitto/log/mosquitto.log
-        log_dest stdout
-
-        password_file /mosquitto/config/mqttuser
-      ```
+4. Додаємо конфіги для `mosquitto`, копіюємо конфіги з `data/configs/mosquitto.conf` в  `src/mosquitto/config/mosquitto.conf`
 5. Перезапускаємо `mosquitto`
 6. Додаємо інтеграцію
-   - `Налаштування -> Пристрої та сервіси (Інтеграції) -> Додати інтеграцію -> MQTT`
+   - `Налаштування -> Пристрої та сервіси (Інтеграції) -> Додати інтеграцію -> MQTT -> MQTT`
     - `Брокер`: mosquitto
     - `Порт`: 1883
     - `Ім'я користувача`: mqtt_user
@@ -254,7 +260,17 @@ Mosquitto — брокер повідомлень MQTT. Щоб дозволит�
 
 - нюанси налаштувань:
     - `environment: CSP=false` - не секюрно, може бути доступ за межами мережі
+    - `mosquitto  | 1774985236: Warning: File /mosquitto/config/mqttuser owner is not mosquitto. Future versions will refuse to load this file.To fix this, use 'chown mosquitto /mosquitto/config/mqttuser'.`
+    - `mosquitto  | 1774985236: Warning: File /mosquitto/config/mqttuser group is not mosquitto. Future versions will refuse to load this file.`
 
+---
+
+#### 3.07. Zigbee2MQTT
+
+Додаткова інфа:
+- https://udocs.ru/posts/home-assistant/docker-container/docker-chast-7-zigbee2mqtt
+- https://udocs.ru/posts/home-assistant/integrations/nastrojjka-zigbee2mqtt
+- https://io-home.ru/devices/sonoff-zigbee-3-0-usb-dongle-e/
 
 ---
 
@@ -518,11 +534,12 @@ HACS (Home Assistant Community Store) – це магазин співтовар
 #### 5.004. Sonoff
 Користувацький компонент `Home Assistant` для керування пристроями `Sonoff` з прошивкою `eWeLink` (оригінальною) через локальну мережу та/або хмару. Чомусь поки що не вдається налаштувати через локальну мережу, лише через хмару.\
 Простий варіант - інтеграція `HACS` `Sonoff LAN`.\
+Починаючи з 2026 року, датчики потужності, струму та напруги більше не оновлюватимуться через хмарне з'єднання. Ці оновлення створили велике навантаження на хмару eWeLink. В результаті хмара блокувала їх.\
 
 ##### Етапи встановлення:
 1. Встановлюємо:
     - в пошуку `HACS` шукаємо `Sonoff`
-    - переходимо
+    - переходимо на `Sonoff LAN`
     - натискаємо `Download`
     - підтверджуємо
 2. Перезапускаємо HA
@@ -825,12 +842,10 @@ HACS (Home Assistant Community Store) – це магазин співтовар
 5. Налаштування [Code Server](#305-code-server)
 6. Налаштування [HACS](#5001-setup-hacs)
 7. Налаштування [Tuya Local](#5002-tuya-local)
-8. Налаштування [HASS Local Tuya](#5006-hass-local-tuya)
-9. Налаштування [Sonoff](#5004-sonoff)
-10. Налаштування [Solarman](#5005-solarman)
-
-
-10. 
+8. Налаштування [Sonoff](#5004-sonoff)
+9. Налаштування [Mosquitto](#306-mosquitto)
+10. Налаштування [Zigbee2MQTT](#307-zigbee2mqtt)
+11. Налаштування [Solarman](#5005-solarman)
 
 ---
 

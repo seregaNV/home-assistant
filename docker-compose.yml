@@ -51,7 +51,7 @@ services:
       - PGID=1000
     depends_on:
       - mariadb
-#      - mosquitto
+      - mosquitto
 #    devices:
 #      - /path/to/device:/path/to/device #optional
     volumes:
