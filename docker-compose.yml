@@ -7,6 +7,7 @@ version: "5.0.2"
 # - docker compose up cloudbeaver
 # - docker compose up code-server
 # - docker compose up mosquitto
+# - docker compose up zigbee2mqtt
 
 networks:
   home_assistant_net:
@@ -52,6 +53,7 @@ services:
     depends_on:
       - mariadb
       - mosquitto
+      - zigbee2mqtt
 #    devices:
 #      - /path/to/device:/path/to/device #optional
     volumes:
@@ -130,3 +132,21 @@ services:
       - ./src/mosquitto/log:/mosquitto/log
     stdin_open: true
     tty: true
+
+  # docker compose up zigbee2mqtt
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    privileged: true
+    networks:
+      - home_assistant_net
+    ports:
+      - 8020:8020
+    environment:
+      - TZ=Europe/Kyiv
+    volumes:
+      - ./src/zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    depends_on:
+      - mosquitto

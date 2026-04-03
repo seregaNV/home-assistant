@@ -78,3 +78,12 @@
 ### Налаштування `Code Server`
 ### Налаштування `Sonoff`
 ### Налаштування `Mosquitto`
+
+## 02.04.2026
+
+### Налаштування `Zigbee2MQTT USB` - ERROR
+### Налаштування `Zigbee2MQTT WiFi`
+
+## 03.04.2026
+
+### Спробував ще раз `Zigbee2MQTT USB` - ERROR

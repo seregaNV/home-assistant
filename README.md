@@ -10,7 +10,8 @@
   - [DBeaver](#304-dbeaver)
   - [Code Server](#305-code-server)
   - [Mosquitto](#306-mosquitto)
-  - [Zigbee2MQTT](#307-zigbee2mqtt)
+  - [Zigbee2MQTT WiFi](#307-zigbee2mqtt-wifi)
+  - [Zigbee2MQTT USB](#308-zigbee2mqtt-usb)
 - [Офіційні інтеграції](#4-integrations)
 - [HACS](#5-hacs)
   - [Налаштування HACS](#5001-setup-hacs)
@@ -174,12 +175,9 @@ Portainer — зручний інтерфейс керування контей�
     - command: `docker compose up mariadb`
 2. Підключаємо MariaDB до Home Assistant
    - ініціалізуємо конфіг для підключення до `mariadb`
-     додаємо конфіг в `src/home-assistant/config/secrets.yaml`
-     ```YAML
-       mariadb: "mysql://ha_user:OtPgHWk8zKDoY56F@mariadb/ha_db?charset=utf8mb4"
-     ```
+     копіпастимо конфіги з `data/configs/home-assistant/secrets.yaml` в `src/home-assistant/config/secrets.yaml`
    - налаштовуємо підключення до `mariadb`
-     копіпастимо конфіги з `data/configs/configuration.yaml` в `src/home-assistant/config/configuration.yaml`
+     копіпастимо конфіги з `data/configs/home-assistant/configuration.yaml` в `src/home-assistant/config/configuration.yaml`
 
 ##### нюанси налаштувань:
 - в самій IDE не відображаються дані з `/home-assistant/src/mariadb/data/ha_db`
@@ -248,7 +246,7 @@ Zigbee - це бездротовий протокол, подібний до WiF
    - `docker exec -it mosquitto mosquitto_passwd -c /mosquitto/config/mqttuser mqtt_user`
       - user: mqtt_user
       - pass: MumsaXHEBA7TAsLZ
-4. Додаємо конфіги для `mosquitto`, копіюємо конфіги з `data/configs/mosquitto.conf` в  `src/mosquitto/config/mosquitto.conf`
+4. Додаємо конфіги для `mosquitto`, копіюємо конфіги з `data/configs/mosquitto/mosquitto.conf` в  `src/mosquitto/config/mosquitto.conf`
 5. Перезапускаємо `mosquitto`
 6. Додаємо інтеграцію
    - `Налаштування -> Пристрої та сервіси (Інтеграції) -> Додати інтеграцію -> MQTT -> MQTT`
@@ -265,12 +263,82 @@ Zigbee - це бездротовий протокол, подібний до WiF
 
 ---
 
-#### 3.07. Zigbee2MQTT
+#### 3.07. Zigbee2MQTT WiFi
 
 Додаткова інфа:
 - https://udocs.ru/posts/home-assistant/docker-container/docker-chast-7-zigbee2mqtt
 - https://udocs.ru/posts/home-assistant/integrations/nastrojjka-zigbee2mqtt
 - https://io-home.ru/devices/sonoff-zigbee-3-0-usb-dongle-e/
+
+##### 1. Виявлення координатора Zigbee:
+- підключаємо координатор до живлення
+
+##### 2. Конфігурація Zigbee2MQTT:
+- створюємо папку:
+  - `mkdir ./src/zigbee2mqtt`
+- створюємо файл конфігурації:
+  - `touch nano ./src/zigbee2mqtt/configuration.yaml`
+- копіюємо конфіги:
+  - з `data/configs/zigbee2mqtt/configuration.yaml` в `src/zigbee2mqtt/configuration_wifi.yaml`
+- створюємо файл `secret` з налаштуваннями підключення:
+  - `touch nano ./src/zigbee2mqtt/secret.yaml`
+- копіюємо конфіги:
+  - з `data/configs/zigbee2mqtt/secret.yaml` в `src/zigbee2mqtt/secret.yaml`
+
+##### 3. Запускаємо контейнер: `docker compose up zigbee2mqtt`
+
+##### 4. Додаємо пункт [меню](#704-zigbee2mqtt)
+
+##### 5. Підключення пристроїв через Zigbee2MQTT:
+- в інтерфейсах самої інтеграції `Zigbee2MQTT`
+
+---
+
+#### 3.08. Zigbee2MQTT USB
+
+Додаткова інфа:
+- https://udocs.ru/posts/home-assistant/docker-container/docker-chast-7-zigbee2mqtt
+- https://udocs.ru/posts/home-assistant/integrations/nastrojjka-zigbee2mqtt
+- https://io-home.ru/devices/sonoff-zigbee-3-0-usb-dongle-e/
+
+!!!Нічого не допомогло, пробував різні варіанти:
+- devices:
+    - /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_aa9b322c73a0f01182e03081bb936ffa-if00-port0:/dev/ttyACM0
+    - /dev/ttyUSB0:/dev/ttyACM0
+    - /dev/ttyUSB0:/dev/ttyUSB0
+    - /dev:/dev # Жорсткий, але ефективний тест
+    - /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_aa9b322c73a0f01182e03081bb936ffa-if00-port0:/dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_aa9b322c73a0f01182e03081bb936ffa-if00-port0
+
+Так і не підключилось:
+```
+zigbee2mqtt  | [2026-04-02 11:45:52] error:     zh:ember:uart:ash: Failed to init port with error Error: Error: No such file or directory, cannot open /dev/ttyUSB0
+```
+
+#### Виявлення координатора Zigbee:
+- підключаємо координатор по USB до ПК
+- виконуємо команду `ls -l /dev/serial/by-id/`
+- отримуємо щось схоже на:
+    ```
+        lrwxrwxrwx 1 root root 13 кві  1 20:59 usb-SONOFF_SONOFF_Dongle_Max_MG24_aa9b322c73a0f01182e03081bb936ffa-if00-port0 -> ../../ttyUSB0
+    ```
+    Ми будемо використовувати цей унікальний шлях `by-id` у нашій конфігурації пізніше замість типового `/dev/ttyUSB0`, тому що завжди існує ризик того, що пристрій отримає новий TTY, призначений після перезавантаження.
+- оновлюємо конфіг `zigbee2mqtt` в `docker-compose.yml`
+    ```YML
+      devices:
+        - /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_aa9b322c73a0f01182e03081bb936ffa-if00-port0:/dev/ttyACM0
+    ```
+- накидуємо прав для девайса: `sudo chmod 777 /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_aa9b322c73a0f01182e03081bb936ffa-if00-port0`
+
+#### Конфігурація Zigbee2MQTT:
+- створюємо папку: `mkdir ./src/zigbee2mqtt`
+- створюємо файл конфігурації: `touch nano ./src/zigbee2mqtt/configuration.yaml`
+- копіюємо конфіги з `data/configs/zigbee2mqtt/configuration_usb.yaml` в `src/zigbee2mqtt/configuration.yaml`
+- створюємо файл `secret` з налаштуваннями підключення: `touch nano ./src/zigbee2mqtt/secret.yaml`
+- копіюємо конфіги з `data/configs/zigbee2mqtt/secret.yaml` в `src/zigbee2mqtt/secret.yaml`
+
+Запускаємо контейнер: `docker compose up zigbee2mqtt`
+
+!!!ERROR!!!
 
 ---
 
@@ -877,6 +945,14 @@ HACS (Home Assistant Community Store) – це магазин співтовар
   - url: http://127.0.0.1:8443/?folder=/var/www
   - icon: mdi:wrench
   - URL-адреса: dashboard-configurator (формується автоматично, не змінюємо)
+  - Admin-only: true
+  - Add to sidebar: true
+
+#### 7.04. Zigbee2MQTT
+  - title: Zigbee2MQTT
+  - url: http://127.0.0.1:8020
+  - icon: mdi:zigbee
+  - URL-адреса: dashboard-zigbee2mqtt (формується автоматично, не змінюємо)
   - Admin-only: true
   - Add to sidebar: true
 

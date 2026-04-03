@@ -1,0 +1,21 @@
+homeassistant: true
+
+permit_join: false
+
+mqtt:
+  base_topic: zigbee2mqtt
+  server: '!secret server'
+  user: '!secret user'
+  password: '!secret password'
+  client_id: zigbee
+
+serial:
+#  port: /dev/ttyUSB0
+  port: /dev/ttyACM0
+#  port: /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Max_MG24_aa9b322c73a0f01182e03081bb936ffa-if00-port0
+  adapter: ember
+  baudrate: 115200
+  rtscts: false
+
+frontend:
+  port: 8020
