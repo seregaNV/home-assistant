@@ -22,6 +22,8 @@
   - [Solarman](#5005-solarman)
 - [Setup steps](#6-setup-steps)
 - [Add menu item](#7-add-menu-item)
+- [Rooms](#8-rooms)
+- [Zigbee devices](#9-zigbee-devices)
 
 ---
 
@@ -291,6 +293,7 @@ Zigbee - це бездротовий протокол, подібний до WiF
 
 ##### 5. Підключення пристроїв через Zigbee2MQTT:
 - в інтерфейсах самої інтеграції `Zigbee2MQTT`
+- налаштовуємо інтерфейси [Zigbee devices](#9-zigbee-devices)
 
 ---
 
@@ -955,5 +958,100 @@ HACS (Home Assistant Community Store) – це магазин співтовар
   - URL-адреса: dashboard-zigbee2mqtt (формується автоматично, не змінюємо)
   - Admin-only: true
   - Add to sidebar: true
+
+---
+
+### 8. Rooms
+
+##### Поверх
+- `Назва: 8 поверх`
+- `Рівень: 1`
+- `Значок: mdi:laptop`
+
+##### Коридор
+- `Назва: Коридор`
+- `Значок: mdi:mirror-rectangle`
+- `Поверх: 8 поверх`
+
+##### Гардероб
+- `Назва: Гардероб`
+- `Значок: mdi:wardrobe-outline`
+- `Поверх: 8 поверх`
+
+##### Кухня
+- `Назва: Кухня`
+- `Значок: mdi:fridge-outline`
+- `Поверх: 8 поверх`
+
+##### Спальня
+- `Назва: Спальня`
+- `Значок: mdi:bed-king`
+- `Поверх: 8 поверх`
+
+##### Спальня (Аня)
+- `Назва: Спальня (Аня)`
+- `Значок: mdi:bed-queen-outline`
+- `Поверх: 8 поверх`
+
+##### Спальня (Віка)
+- `Назва: Спальня (Віка)`
+- `Значок: mdi:bed-queen-outline`
+- `Поверх: 8 поверх`
+
+##### Кабінет
+- `Назва: Кабінет`
+- `Значок: mdi:laptop`
+- `Поверх: 8 поверх`
+
+##### Туалет
+- `Назва: Туалет`
+- `Значок: mdi:paper-roll-outline`
+- `Поверх: 8 поверх`
+
+##### Ванна
+- `Назва: Ванна`
+- `Значок: mdi:bathtub-outline`
+- `Поверх: 8 поверх`
+
+---
+
+
+### 9. Zigbee devices
+
+##### 1. 0xa4c138946006f638
+- `Назва: Датчик температури та вологості`
+- `MQTT назва: Датчик температури та вологості (Спальня)`
+- `Приміщення: Спальня`
+- Інформація:
+  - Тип: EndDevice
+  - IEEE адреса: 0xa4c138946006f638 
+    Organizationally Unique Identifier (IEEE Vendor Prefix)
+    OUI: Telink Semiconductor (Taipei) Co. Ltd.
+  - Мережевий адрес: 0xDC1C 
+    Мережевий адрес (dec): 56348
+  - Zigbee модель: TS0201
+    _TZ3000_bgsigers
+  - Модель: ZTH05_1
+    Temperature and humidity sensor (Tuya)
+  - MQTT: zigbee2mqtt/0xa4c138946006f638
+
+##### 2. 0xa4c13899038651bb
+- `Назва: Датчик руху`
+- `MQTT назва: Датчик руху (Кабінет)`
+- `Приміщення: Кабінет`
+- Інформація:
+  - Тип: EndDevice
+  - IEEE адреса: 0xa4c13899038651bb
+    Organizationally Unique Identifier (IEEE Vendor Prefix)
+    OUI: Telink Semiconductor (Taipei) Co. Ltd.
+  - Мережевий адрес: 0x7136
+    Мережевий адрес (dec): 28982
+  - Zigbee модель: ZG-204Z
+    HOBEIAN
+  - Модель: ZG-204Z
+    Motion sensor (HOBEIAN)
+  - Firmware ID: 0102012026
+    02012026
+  - MQTT: zigbee2mqtt/0xa4c13899038651bb
 
 ---
